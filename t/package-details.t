@@ -2,6 +2,11 @@ use strict;
 use Test2::V0;
 
 use App::UpdateCPANfile::PackageDetails;
+use Test::WWW::Stub;
+use Path::Class qw(file);
+
+my $stubbed_res = [ 200, [], [file('t/fixtures/02packages/02packages.details.txt.gz')->slurp] ];
+my $guard = Test::WWW::Stub->register(qr<http://.+>, $stubbed_res);
 
 subtest 'downloads 02packages' => sub {
     my $details = App::UpdateCPANfile::PackageDetails->new;

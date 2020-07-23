@@ -16,5 +16,6 @@ on 'test' => sub {
     requires 'File::Temp';
     requires 'File::Copy::Recursive';
     requires 'Path::Class';
+    requires 'Test::WWW::Stub';
 };
 
