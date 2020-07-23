@@ -22,5 +22,25 @@ subtest 'it parses cpanfile' => sub {
     isa_ok $app->writer, 'Module::CPANfile::Writer';
 };
 
+subtest 'it creates changeset for pin dependencies' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/simple/cpanfile', 't/fixtures/simple/cpanfile.snapshot');
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Module::CPANfile",
+            "1.1004"
+        ],
+        [
+            "Test::Class",
+            "0.50",
+            "relationship",
+            "test"
+        ],
+    ];
+};
+
+
+
 done_testing;
 

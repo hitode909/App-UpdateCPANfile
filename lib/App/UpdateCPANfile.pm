@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Module::CPANfile;
 use Module::CPANfile::Writer;
+use App::UpdateCPANfile::CPANfileSnapshotParser;
 
 our $VERSION = "0.01";
 
@@ -33,6 +34,37 @@ sub writer {
     my ($self) = @_;
 
     $self->{writer} //= Module::CPANfile::Writer->new($self->path);
+}
+
+sub create_pin_dependencies_changeset {
+    my ($self) = @_;
+
+    my $prereqs = $self->parser->prereqs->as_string_hash;
+    my $deps = App::UpdateCPANfile::CPANfileSnapshotParser->scan_deps($self->snapshot_path);
+
+    my $added_dependencies = [];
+
+    for my $phase (sort keys %$prereqs) {
+        for my $module (sort keys %{$prereqs->{$phase}->{requires}}) {
+            next if $module eq 'perl';
+            my $version = $prereqs->{$phase}->{$module};
+
+            my $dep = $self->_find_dep($deps, $module);
+            if ($dep && (! defined $version || $version ne $dep->version)) {
+                push @$added_dependencies, [ $module, $dep->version, ($phase eq 'runtime' ? () : (relationship => $phase))];
+            }
+        }
+    }
+    return $added_dependencies;
+}
+
+sub _find_dep {
+    my ($self, $deps, $module) = @_;;
+    my $distname = $module =~ s{::}{-}gr;
+    for my $dep (@$deps) {
+        return $dep if $dep->dist eq $distname;
+    }
+    return undef;
 }
 
 
