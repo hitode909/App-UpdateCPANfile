@@ -54,6 +54,16 @@ sub pin_dependencies {
     $writer->save($self->path);
 }
 
+sub update_dependencies {
+    my ($self) = @_;
+    my $changeset = $self->create_update_dependencies_changeset;
+    my $writer = $self->writer;
+    for my $change (@$changeset) {
+        $writer->add_prereq(@$change);
+    }
+    $writer->save($self->path);
+}
+
 sub create_pin_dependencies_changeset {
     my ($self) = @_;
 

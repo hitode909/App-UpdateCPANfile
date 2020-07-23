@@ -85,6 +85,24 @@ subtest 'it creates changeset for update' => sub {
     ];
 };
 
+subtest 'it writes to cpanfile' => sub {
+    my $dir = t::lib::SetupFixture::prepare_test_code('simple');
+    my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
+
+    $app->update_dependencies;
+
+    my $saved_content = file("$dir/cpanfile")->slurp;
+    is $saved_content, <<CPANFILE;
+requires 'perl', '5.008001';
+
+requires 'Module::CPANfile', '1.1004';
+
+on 'test' => sub {
+    requires 'Test::Class', '0.50';
+};
+CPANFILE
+};
+
 
 done_testing;
 
