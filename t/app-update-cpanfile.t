@@ -4,7 +4,11 @@ use lib '.';
 
 use App::UpdateCPANfile;
 use t::lib::SetupFixture;
+use Test::WWW::Stub;
 use Path::Class qw(file);
+
+my $stubbed_res = [ 200, [], [file('t/fixtures/02packages/02packages.details.txt.gz')->slurp] ];
+my $guard = Test::WWW::Stub->register(qr<http://.+>, $stubbed_res);
 
 subtest 'initialize' => sub {
     my $app = App::UpdateCPANfile->new('my.cpanfile', 'my.cpanfile.snapshot');
@@ -23,6 +27,11 @@ subtest 'it parses cpanfile' => sub {
     my $app = App::UpdateCPANfile->new;
     isa_ok $app->parser, 'Module::CPANfile';
     isa_ok $app->writer, 'Module::CPANfile::Writer';
+};
+
+subtest 'it holds package_details' => sub {
+    my $app = App::UpdateCPANfile->new;
+    isa_ok $app->package_details, 'App::UpdateCPANfile::PackageDetails';
 };
 
 subtest 'it creates changeset for pin dependencies' => sub {

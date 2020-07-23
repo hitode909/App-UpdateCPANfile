@@ -5,6 +5,7 @@ use warnings;
 use Module::CPANfile;
 use Module::CPANfile::Writer;
 use App::UpdateCPANfile::CPANfileSnapshotParser;
+use App::UpdateCPANfile::PackageDetails;
 use CPAN::DistnameInfo;
 
 our $VERSION = "0.01";
@@ -35,6 +36,12 @@ sub writer {
     my ($self) = @_;
 
     $self->{writer} //= Module::CPANfile::Writer->new($self->path);
+}
+
+sub package_details {
+    my ($self) = @_;
+
+    $self->{package_details} //= App::UpdateCPANfile::PackageDetails->new;
 }
 
 sub pin_dependencies {
