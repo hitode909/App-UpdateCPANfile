@@ -41,11 +41,11 @@ subtest 'it creates changeset for pin dependencies' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "1.1004"
+            "1.1003"
         ],
         [
             "Test::Class",
-            "0.50",
+            "0.49",
         ],
     ];
 };
@@ -60,10 +60,10 @@ subtest 'it writes to cpanfile' => sub {
     is $saved_content, <<CPANFILE;
 requires 'perl', '5.008001';
 
-requires 'Module::CPANfile', '1.1004';
+requires 'Module::CPANfile', '1.1003';
 
 on 'test' => sub {
-    requires 'Test::Class', '0.50';
+    requires 'Test::Class', '0.49';
 };
 CPANFILE
 };
