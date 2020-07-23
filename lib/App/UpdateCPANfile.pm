@@ -14,7 +14,7 @@ __END__
 
 =head1 NAME
 
-App::UpdateCPANfile - It's new $module
+App::UpdateCPANfile - cpanfile updater
 
 =head1 SYNOPSIS
 
@@ -22,7 +22,7 @@ App::UpdateCPANfile - It's new $module
 
 =head1 DESCRIPTION
 
-App::UpdateCPANfile is ...
+App::UpdateCPANfile reads cpanfile, pin dependencies, update dependencies and write back to cpanfile.
 
 =head1 LICENSE
 
