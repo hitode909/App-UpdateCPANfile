@@ -36,6 +36,16 @@ sub writer {
     $self->{writer} //= Module::CPANfile::Writer->new($self->path);
 }
 
+sub pin_dependencies {
+    my ($self) = @_;
+    my $changeset = $self->create_pin_dependencies_changeset;
+    my $writer = $self->writer;
+    for my $change (@$changeset) {
+        $writer->add_prereq(@$change);
+    }
+    $writer->save($self->path);
+}
+
 sub create_pin_dependencies_changeset {
     my ($self) = @_;
 
@@ -51,7 +61,7 @@ sub create_pin_dependencies_changeset {
 
             my $dep = $self->_find_dep($deps, $module);
             if ($dep && (! defined $version || $version ne $dep->version)) {
-                push @$added_dependencies, [ $module, $dep->version, ($phase eq 'runtime' ? () : (relationship => $phase))];
+                push @$added_dependencies, [ $module, $dep->version];
             }
         }
     }
@@ -60,6 +70,7 @@ sub create_pin_dependencies_changeset {
 
 sub _find_dep {
     my ($self, $deps, $module) = @_;;
+    # TODO: extract from 02packages
     my $distname = $module =~ s{::}{-}gr;
     for my $dep (@$deps) {
         return $dep if $dep->dist eq $distname;
