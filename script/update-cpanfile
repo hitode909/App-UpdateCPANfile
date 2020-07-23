@@ -1,0 +1,30 @@
+#!perl
+use 5.008001;
+use strict;
+use warnings;
+use App::UpdateCPANfile;
+
+my ($command) = shift @ARGV;
+
+if ($command eq 'pin') {
+  my $app = App::UpdateCPANfile->new;
+  $app->pin_dependencies(@ARGV);
+  exit 0;
+} else {
+  warn "Usage: update-cpanfile pin";
+  exit 1;
+}
+
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+update-cpanfile - cpanfile updater
+
+=head1 SYNOPSIS
+
+    $ update-cpanfile pin
+
+Write to cpanfile, with pinned dependencies version.
