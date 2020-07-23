@@ -16,6 +16,7 @@ subtest 'initialize without path' => sub {
 
 subtest 'it parses cpanfile' => sub {
     my $app = App::UpdateCPANfile->new;
+    isa_ok $app->parser, 'Module::CPANfile';
     isa_ok $app->writer, 'Module::CPANfile::Writer';
 };
 

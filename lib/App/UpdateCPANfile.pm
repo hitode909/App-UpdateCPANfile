@@ -2,6 +2,7 @@ package App::UpdateCPANfile;
 use 5.008001;
 use strict;
 use warnings;
+use Module::CPANfile;
 use Module::CPANfile::Writer;
 
 our $VERSION = "0.01";
@@ -15,6 +16,12 @@ sub new {
 
 sub path {
     $_[0]->{path} // 'cpanfile';
+}
+
+sub parser {
+    my ($self) = @_;
+
+    $self->{parser} //= Module::CPANfile->load($self->path);
 }
 
 sub writer {
