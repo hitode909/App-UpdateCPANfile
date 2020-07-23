@@ -5,6 +5,7 @@ use warnings;
 use Module::CPANfile;
 use Module::CPANfile::Writer;
 use App::UpdateCPANfile::CPANfileSnapshotParser;
+use CPAN::DistnameInfo;
 
 our $VERSION = "0.01";
 
@@ -70,8 +71,8 @@ sub create_pin_dependencies_changeset {
 
 sub _find_dep {
     my ($self, $deps, $module) = @_;;
-    # TODO: extract from 02packages
-    my $distname = $module =~ s{::}{-}gr;
+    my $package_object = $self->package_details->package_object($module);
+    my $distname = CPAN::DistnameInfo->new($package_object->path)->dist;
     for my $dep (@$deps) {
         return $dep if $dep->dist eq $distname;
     }
