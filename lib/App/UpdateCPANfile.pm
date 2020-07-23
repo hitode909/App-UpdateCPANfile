@@ -8,14 +8,19 @@ use Module::CPANfile::Writer;
 our $VERSION = "0.01";
 
 sub new {
-    my ($class, $path) = @_;
+    my ($class, $path, $snapshot_path) = @_;
     bless {
         path => $path,
+        snapshot_path => $snapshot_path,
     }, $class;
 }
 
 sub path {
     $_[0]->{path} // 'cpanfile';
+}
+
+sub snapshot_path {
+    $_[0]->{snapshot_path} // 'cpanfile.snapshot';
 }
 
 sub parser {
