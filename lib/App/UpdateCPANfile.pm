@@ -76,6 +76,27 @@ sub create_pin_dependencies_changeset {
     return $added_dependencies;
 }
 
+sub create_update_dependencies_changeset {
+    my ($self) = @_;
+
+    my $prereqs = $self->parser->prereqs->as_string_hash;
+
+    my $added_dependencies = [];
+
+    for my $phase (sort keys %$prereqs) {
+        for my $module (sort keys %{$prereqs->{$phase}->{requires}}) {
+            next if $module eq 'perl';
+            my $version = $prereqs->{$phase}->{$module};
+
+            my $latest_version = $self->package_details->latest_version_for_package($module);
+            if (defined $latest_version && (! defined $version || $version ne $latest_version)) {
+                push @$added_dependencies, [ $module, $latest_version];
+            }
+        }
+    }
+    return $added_dependencies;
+}
+
 sub _find_dep {
     my ($self, $deps, $module) = @_;;
     my $package_object = $self->package_details->package_object($module);

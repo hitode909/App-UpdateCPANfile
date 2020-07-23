@@ -68,6 +68,23 @@ on 'test' => sub {
 CPANFILE
 };
 
+subtest 'it creates changeset for update' => sub {
+    my $dir = t::lib::SetupFixture::prepare_test_code('simple');
+    my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
+
+    my $update = $app->create_update_dependencies_changeset;
+    is $update, [
+        [
+            "Module::CPANfile",
+            "1.1004"
+        ],
+        [
+            "Test::Class",
+            "0.50",
+        ],
+    ];
+};
+
 
 done_testing;
 
