@@ -29,3 +29,5 @@ cover_db/
 MYMETA.*
 
 /App-UpdateCPANfile-*
+
+.perl-version
