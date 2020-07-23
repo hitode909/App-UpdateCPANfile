@@ -12,5 +12,6 @@ on 'test' => sub {
     requires 'File::Spec::Functions';
     requires 'File::Temp';
     requires 'File::Copy::Recursive';
+    requires 'Path::Class';
 };
 
