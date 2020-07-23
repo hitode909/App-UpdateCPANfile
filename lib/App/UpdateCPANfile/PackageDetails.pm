@@ -31,9 +31,15 @@ sub details {
     $self->{details} = CPAN::PackageDetails->read( $file );
 }
 
-sub latest_version_for_package {
+sub package_object {
     my ($self, $package) = @_;
     my ($package_object) = $self->details->entries->get_entries_by_package($package);
+    $package_object;
+}
+
+sub latest_version_for_package {
+    my ($self, $package) = @_;
+    my $package_object = $self->package_object($package);
     return undef unless $package_object;
     return $package_object->version;
 }
