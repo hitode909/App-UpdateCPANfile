@@ -1,11 +1,11 @@
 use strict;
-use Test::More 0.98;
+use Test2::V0;
 
 use App::UpdateCPANfile::CPANfileSnapshotParser;
 
 subtest 'parse' => sub {
     my $deps = App::UpdateCPANfile::CPANfileSnapshotParser->scan_deps('t/fixtures/simple/cpanfile.snapshot');
-    is_deeply $deps, [
+    is $deps, [
         "H/HA/HAARG/MRO-Compat-0.13.tar.gz",
         "L/LE/LEONT/Module-Build-0.4231.tar.gz",
         "M/MI/MIYAGAWA/Module-CPANfile-1.1004.tar.gz",
