@@ -9,7 +9,6 @@ sub prepare_test_code {
     my ($name) = @_;
 
     my $base_directory = catfile($FindBin::Bin, 'fixtures', $name);
-    warn $base_directory;
     my $tmpdir = Cwd::abs_path(tempdir);
 
     unless (-d $base_directory) {
