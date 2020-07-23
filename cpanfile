@@ -4,8 +4,7 @@ requires 'Module::CPANfile';
 requires 'Module::CPANfile::Writer';
 requires 'CPAN::PackageDetails';
 requires 'CPAN::DistnameInfo';
-requires 'Furl';
-requires 'IO::Socket::SSL';
+requires 'LWP::UserAgent';
 requires 'IO::String';
 
 on 'test' => sub {

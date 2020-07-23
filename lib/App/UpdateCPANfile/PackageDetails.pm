@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use CPAN::PackageDetails;
-use Furl;
+use LWP::UserAgent;
 use IO::String;
 
 sub new {
@@ -18,13 +18,13 @@ sub details {
         return $self->{details};
     }
 
-    my $furl = Furl->new(
+    my $agent = LWP::UserAgent->new(
         agent   => 'UpdateCPANfile/0.1',
         timeout => 60,
     );
 
     my $file = IO::String->new;
-    my $res = $furl->get('http://www.cpan.org/modules/02packages.details.txt.gz');
+    my $res = $agent->get('http://www.cpan.org/modules/02packages.details.txt.gz');
     $file->print($res->content);
     $file->setpos(0);
 
