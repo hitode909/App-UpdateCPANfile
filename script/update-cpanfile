@@ -7,8 +7,8 @@ use App::UpdateCPANfile;
 my ($command) = shift @ARGV;
 
 if ($command eq 'pin') {
-  my $app = App::UpdateCPANfile->new;
-  $app->pin_dependencies(@ARGV);
+  my $app = App::UpdateCPANfile->new(@ARGV);
+  $app->pin_dependencies;
   exit 0;
 } else {
   warn "Usage: update-cpanfile pin";
