@@ -7,12 +7,13 @@ use App::UpdateCPANfile;
 my ($command) = shift @ARGV;
 
 if ($command eq 'pin') {
-  my $app = App::UpdateCPANfile->new(@ARGV);
-  $app->pin_dependencies;
-  exit 0;
+    my $app = App::UpdateCPANfile->new(@ARGV);
+    $app->pin_dependencies;
+    exit 0;
 } else {
-  warn "Usage: update-cpanfile pin";
-  exit 1;
+    warn 'Usage';
+    warn 'Pin Dependencies: update-cpanfile pin $PATH_TO_CPANFILE $PATH_TO_CPANFILE_SNAPSHOT';
+    exit 1;
 }
 
 __END__
@@ -25,6 +26,10 @@ update-cpanfile - cpanfile updater
 
 =head1 SYNOPSIS
 
-    $ update-cpanfile pin
+    $ update-cpanfile pin $PATH_TO_CPANFILE $PATH_TO_CPANFILE_SNAPSHOT
 
-Write to cpanfile, with pinned dependencies version.
+Pin package versions in cpanfile to versions in cpanfile.snapshot.
+
+    $ update-cpanfile update $PATH_TO_CPANFILE
+
+Not implemented yet.

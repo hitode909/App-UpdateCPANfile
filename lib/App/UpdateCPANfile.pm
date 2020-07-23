@@ -96,6 +96,10 @@ App::UpdateCPANfile - cpanfile updater
 
 App::UpdateCPANfile reads cpanfile, pin dependencies, update dependencies and write back to cpanfile.
 
+=head1 SEE ALSO
+
+L<update-cpanfile> for command-line usage.
+
 =head1 LICENSE
 
 Copyright (C) hitode909.

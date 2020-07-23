@@ -1,6 +1,6 @@
 # NAME
 
-App::UpdateCPANfile - It's new $module
+App::UpdateCPANfile - cpanfile updater
 
 # SYNOPSIS
 
@@ -8,7 +8,11 @@ App::UpdateCPANfile - It's new $module
 
 # DESCRIPTION
 
-App::UpdateCPANfile is ...
+App::UpdateCPANfile reads cpanfile, pin dependencies, update dependencies and write back to cpanfile.
+
+# SEE ALSO
+
+[update-cpanfile](https://metacpan.org/pod/update-cpanfile) for command-line usage.
 
 # LICENSE
 

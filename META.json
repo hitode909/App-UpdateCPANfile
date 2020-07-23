@@ -1,16 +1,16 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "cpanfile updater",
    "author" : [
       "This library is free software; you can redistribute it and/or modify"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v3.1.10, CPAN::Meta::Converter version 2.150005",
+   "generated_by" : "Minilla/v3.1.10, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
-      "version" : "2"
+      "version" : 2
    },
    "name" : "App-UpdateCPANfile",
    "no_index" : {
@@ -42,18 +42,41 @@
       },
       "runtime" : {
          "requires" : {
+            "CPAN::DistnameInfo" : "0",
+            "CPAN::PackageDetails" : "0",
+            "Module::CPANfile" : "0",
+            "Module::CPANfile::Writer" : "0",
             "perl" : "5.008001"
          }
       },
       "test" : {
          "requires" : {
-            "Test::More" : "0.98"
+            "Cwd" : "0",
+            "File::Copy::Recursive" : "0",
+            "File::Spec::Functions" : "0",
+            "File::Temp" : "0",
+            "FindBin" : "0",
+            "Test2::V0" : "0"
          }
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/hitode909/App-UpdateCPANfile/issues"
+      },
+      "homepage" : "https://github.com/hitode909/App-UpdateCPANfile",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/hitode909/App-UpdateCPANfile.git",
+         "web" : "https://github.com/hitode909/App-UpdateCPANfile"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:HITODE",
-   "x_serialization_backend" : "JSON::PP version 2.27300",
+   "x_contributors" : [
+      "hitode909 <hitode909@gmail.com>"
+   ],
+   "x_serialization_backend" : "JSON::PP version 4.02",
    "x_static_install" : 1
 }
