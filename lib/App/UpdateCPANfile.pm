@@ -7,6 +7,7 @@ use Module::CPANfile::Writer;
 use App::UpdateCPANfile::CPANfileSnapshotParser;
 use App::UpdateCPANfile::PackageDetails;
 use CPAN::DistnameInfo;
+use Module::CoreList;
 
 our $VERSION = "0.01";
 
@@ -74,7 +75,7 @@ sub create_pin_dependencies_changeset {
 
     for my $phase (sort keys %$prereqs) {
         for my $module (sort keys %{$prereqs->{$phase}->{requires}}) {
-            next if $module eq 'perl';
+            next if $self->_should_skip($module);
             my $version = $prereqs->{$phase}->{$module};
 
             my $dep = $self->_find_dep($deps, $module);
@@ -95,7 +96,7 @@ sub create_update_dependencies_changeset {
 
     for my $phase (sort keys %$prereqs) {
         for my $module (sort keys %{$prereqs->{$phase}->{requires}}) {
-            next if $module eq 'perl';
+            next if $self->_should_skip($module);
             my $version = $prereqs->{$phase}->{$module};
 
             my $latest_version = $self->package_details->latest_version_for_package($module);
@@ -115,6 +116,12 @@ sub _find_dep {
         return $dep if $dep->dist eq $distname;
     }
     return undef;
+}
+
+sub _should_skip {
+    my ($self, $module) = @_;
+    return 1 if $module eq 'perl';
+    return Module::CoreList::is_core($module);
 }
 
 

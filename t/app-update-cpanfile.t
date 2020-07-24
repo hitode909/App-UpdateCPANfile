@@ -50,6 +50,18 @@ subtest 'it creates changeset for pin dependencies' => sub {
     ];
 };
 
+subtest 'it ignores core modules' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/coremodules/cpanfile', 't/fixtures/coremodules/cpanfile.snapshot');
+
+    my $pin = $app->create_update_dependencies_changeset;
+    is $pin, [
+        [
+            "Furl",
+            "3.13"
+        ],
+    ];
+};
+
 subtest 'it writes to cpanfile' => sub {
     my $dir = t::lib::SetupFixture::prepare_test_code('simple');
     my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
