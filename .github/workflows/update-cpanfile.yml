@@ -8,27 +8,14 @@ jobs:
   update:
     name: update
     runs-on: ubuntu-latest
-    container:
-      image: perl:latest
     steps:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
 
-      - name: perl-version
-        run: perl -V
-
-      - name: install deps
-        run: |
-          cpanm --notest --installdeps .
       - name: update
-        run: perl -Ilib/ script/update-cpanfile update
+        run: docker run --rm -v `pwd`:/src -w /src perl:latest bash -c 'perl -v && cpanm --notest --installdeps . && perl -Ilib/ script/update-cpanfile update'
 
-  create-pull-request:
-    name: create-pull-request
-    needs: update
-    runs-on: ubuntu-latest
-    steps:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2.8.0
         with:
