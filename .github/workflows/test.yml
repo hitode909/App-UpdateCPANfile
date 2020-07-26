@@ -21,15 +21,7 @@ jobs:
       - name: perl-version
         run: perl -V
 
-      - uses: actions/cache@v1
-        id: cache
-        with:
-          path: /usr/local/lib/perl5
-          key: ${{ runner.os }}-perl-${{ matrix.perl-version }}-${{ hashFiles('cpanfile', '.github/workflows/test.yml') }}
-
       - name: install deps
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          cpanm --notest --installdeps .
+        run: cpanm --notest --installdeps .
       - name: test
         run: prove -Ilib
