@@ -29,4 +29,4 @@ jobs:
           token: ${{ secrets.PAT }}
           commit-message: Update cpanfile
           branch: update-cpanfile
-          base: master
+          base: update-cpanfile-from-ci
