@@ -15,8 +15,6 @@ jobs:
           - latest
     container:
       image: perl:${{ matrix.perl-version }}
-    env:
-      PERL_USE_UNSAFE_INC: 1
     steps:
       - uses: actions/checkout@v1
 
