@@ -5,7 +5,7 @@ on:
   - cron:  '*/5 * * * *'
 
 jobs:
-  test:
+  udpate:
     runs-on: ubuntu-latest
     container:
       image: perl:latest
@@ -22,6 +22,10 @@ jobs:
           cpanm --notest --installdeps .
       - name: update
         run: perl -Ilib/ script/update-cpanfile update
+
+  create-pull-request:
+    runs-on: ubuntu-latest
+    steps:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2.8.0
         with:
