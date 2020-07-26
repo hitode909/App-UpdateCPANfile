@@ -24,6 +24,7 @@ jobs:
         run: perl -Ilib/ script/update-cpanfile update
 
   create-pull-request:
+    needs: update
     runs-on: ubuntu-latest
     steps:
       - name: Create Pull Request
