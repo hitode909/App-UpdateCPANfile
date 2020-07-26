@@ -23,4 +23,4 @@ jobs:
           title: Update cpanfile
           branch: update-cpanfile
           commit-message: Update cpanfile
-
+          body: Automated changes by [update-cpanfile](https://metacpan.org/pod/distribution/App-UpdateCPANfile/script/update-cpanfile)
