@@ -1,0 +1,23 @@
+---
+name: update-cpanfile
+on:
+  pull_request:
+  schedule:
+  - cron:  '0 0 * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: perl:latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: perl-version
+        run: perl -V
+
+      - name: install deps
+        run: |
+          cpanm --notest --installdeps .
+      - name: update
+        run: perl -Ilib/ script/update-cpanfile update
