@@ -6,6 +6,7 @@ on:
 
 jobs:
   udpate:
+    name: update
     runs-on: ubuntu-latest
     container:
       image: perl:latest
@@ -24,6 +25,7 @@ jobs:
         run: perl -Ilib/ script/update-cpanfile update
 
   create-pull-request:
+    name: create-pull-request
     needs: update
     runs-on: ubuntu-latest
     steps:
