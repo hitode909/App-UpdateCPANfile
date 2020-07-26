@@ -2,7 +2,7 @@
 name: update-cpanfile
 on:
   schedule:
-  - cron:  '0 0 * * *'
+  - cron:  '*/5 0 * * *'
 
 jobs:
   update:
@@ -14,7 +14,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: update
-        run: docker run --rm -v `pwd`:/src -w /src perl:latest bash -c 'perl -v && cpanm --notest --installdeps . && perl -Ilib/ script/update-cpanfile update'
+        run: docker run --rm -v `pwd`:/src -w /src perl:latest bash -c 'perl -v && cpanm --notest App::UpdateCPANfile && update-cpanfile update'
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
