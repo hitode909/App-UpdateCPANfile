@@ -15,9 +15,11 @@ if ($command eq 'pin') {
     $app->update_dependencies;
     exit 0;
 } else {
-    warn 'Usage';
-    warn 'Pin Dependencies:    update-cpanfile pin $PATH_TO_CPANFILE $PATH_TO_CPANFILE_SNAPSHOT';
-    warn 'Update Dependencies: update-cpanfile update $PATH_TO_CPANFILE';
+    warn <<HELP;
+Usage
+Pin Dependencies:    update-cpanfile pin $PATH_TO_CPANFILE$PATH_TO_CPANFILE_SNAPSHOT
+Update Dependencies: update-cpanfile update$PATH_TO_CPANFILE
+HELP
     exit 1;
 }
 
@@ -31,10 +33,42 @@ update-cpanfile - cpanfile updater
 
 =head1 SYNOPSIS
 
+update-cpanfile has two sub commands.
+
+    $ update-cpanfile pin
+    $ update-cpanfile update
+
+=head1 PIN
+
+Pin command aligns the package versions in cpanfile to versions in cpanfile.snapshot.
+This operation has no side effects for your project's execution environment, so it is useful to pin the versions before update packages.
+
     $ update-cpanfile pin $PATH_TO_CPANFILE $PATH_TO_CPANFILE_SNAPSHOT
 
-Pin package versions in cpanfile to versions in cpanfile.snapshot.
+=head1 UPDATE
 
     $ update-cpanfile update $PATH_TO_CPANFILE
 
-Update package versions in cpanfile to latest version in 02packages.txt.
+Update command updates the package versions in cpanfile to latest versions in 02packages.txt.
+With this command, you can make your dependant libraries latest.
+You may run this command from CI, and create Pull Request when there are some diffs.
+
+Update policy is below.
+
+=over 4
+
+=item * The item is listed in cpanfile.
+
+=item * The item is not a core module.
+
+=item * The item is not a perl.
+
+=back
+
+=head1 TARGET PROJECT
+
+By default, update-cpanfile updates cpanfile in current diretory.
+To execute for other project in directory, you can specify path of cpanfile and cpanfile.snapshot.
+
+    $ update-cpanfile pin <path_to_cpanfile> <path_to_cpanfile.snapshot>
+    $ update-cpanfile update <path_to_cpanfile>
