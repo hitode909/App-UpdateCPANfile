@@ -1,9 +1,8 @@
 ---
 name: update-cpanfile
 on:
-  push:
   schedule:
-  - cron:  '0 0 * * *'
+  - cron:  '*/5 * * * *'
 
 jobs:
   test:
@@ -29,4 +28,4 @@ jobs:
           token: ${{ secrets.PAT }}
           commit-message: Update cpanfile
           branch: update-cpanfile
-          base: update-cpanfile-from-ci
+          base: master
