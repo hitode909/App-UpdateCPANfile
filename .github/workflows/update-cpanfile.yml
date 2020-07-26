@@ -5,7 +5,7 @@ on:
   - cron:  '*/5 * * * *'
 
 jobs:
-  udpate:
+  update:
     name: update
     runs-on: ubuntu-latest
     container:
