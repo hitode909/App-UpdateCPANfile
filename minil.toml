@@ -5,3 +5,4 @@ authority="cpan:HITODE"
 module_maker="ModuleBuildTiny"
 static_install = "auto"
 
+readme_from="script/update-cpanfile"
