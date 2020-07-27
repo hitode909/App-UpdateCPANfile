@@ -7,6 +7,7 @@ requires 'CPAN::DistnameInfo';
 requires 'LWP::UserAgent';
 requires 'IO::String';
 requires 'Getopt::Long';
+requires 'Carton';
 
 on 'test' => sub {
     requires 'Test2::V0';
