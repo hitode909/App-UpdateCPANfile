@@ -4,14 +4,22 @@ use strict;
 use warnings;
 use App::UpdateCPANfile;
 
-my ($command) = shift @ARGV;
+use Getopt::Long qw(:config posix_default no_ignore_case);
+GetOptions(
+    \my %options, qw/
+    limit=n
+    filter=s
+    ignore-filter=s
+/);
+
+my ($command, $cpanfile, $cpanfile_snapshot) = shift @ARGV;
 
 if ($command eq 'pin') {
-    my $app = App::UpdateCPANfile->new(@ARGV);
+    my $app = App::UpdateCPANfile->new($cpanfile, $cpanfile_snapshot, \%options);
     $app->pin_dependencies;
     exit 0;
 } elsif ($command eq 'update') {
-    my $app = App::UpdateCPANfile->new(@ARGV);
+    my $app = App::UpdateCPANfile->new($cpanfile, undef, \%options);
     $app->update_dependencies;
     exit 0;
 } else {
@@ -72,3 +80,16 @@ To execute for other project in directory, you can specify path of cpanfile and 
 
     $ update-cpanfile pin <path_to_cpanfile> <path_to_cpanfile.snapshot>
     $ update-cpanfile update <path_to_cpanfile>
+
+=head1 OPTIONS
+
+=over 4
+
+=item * --limit=n
+
+=item * --filter=FILTER
+
+=item * --ignore-filter=FILTER
+
+=back
+
