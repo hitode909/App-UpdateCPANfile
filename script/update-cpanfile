@@ -13,14 +13,15 @@ GetOptions(
 /);
 
 my ($command, $cpanfile, $cpanfile_snapshot) = shift @ARGV;
+my $app = App::UpdateCPANfile->new($cpanfile, $cpanfile_snapshot, \%options);
 
-if ($command eq 'pin') {
-    my $app = App::UpdateCPANfile->new($cpanfile, $cpanfile_snapshot, \%options);
-    $app->pin_dependencies;
-    exit 0;
-} elsif ($command eq 'update') {
-    my $app = App::UpdateCPANfile->new($cpanfile, undef, \%options);
-    $app->update_dependencies;
+my $method = {
+    pin => 'pin_dependencies',
+    update => 'update_dependencies',
+}->{$command // ''};
+
+if ($method) {
+    $app->$method;
     exit 0;
 } else {
     warn <<'HELP';
