@@ -12,10 +12,11 @@ use Module::CoreList;
 our $VERSION = "0.01";
 
 sub new {
-    my ($class, $path, $snapshot_path) = @_;
+    my ($class, $path, $snapshot_path, $options) = @_;
     bless {
         path => $path,
         snapshot_path => $snapshot_path,
+        options => $options,
     }, $class;
 }
 
@@ -25,6 +26,10 @@ sub path {
 
 sub snapshot_path {
     $_[0]->{snapshot_path} // 'cpanfile.snapshot';
+}
+
+sub options {
+    $_[0]->{options} // {};
 }
 
 sub parser {

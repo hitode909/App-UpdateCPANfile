@@ -15,6 +15,15 @@ subtest 'initialize' => sub {
     isa_ok $app, 'App::UpdateCPANfile';
     is $app->path, 'my.cpanfile';
     is $app->snapshot_path, 'my.cpanfile.snapshot';
+    is $app->options, {};
+};
+
+subtest 'initialize with options' => sub {
+    my $app = App::UpdateCPANfile->new('my.cpanfile', 'my.cpanfile.snapshot', { limit => 3, filter => 'foo', 'ignore-filter' => 'bar'});
+    isa_ok $app, 'App::UpdateCPANfile';
+    is $app->path, 'my.cpanfile';
+    is $app->snapshot_path, 'my.cpanfile.snapshot';
+    is $app->options, { limit => 3, filter => 'foo', 'ignore-filter' => 'bar'};
 };
 
 subtest 'initialize without path' => sub {
