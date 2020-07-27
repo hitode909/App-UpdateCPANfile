@@ -89,7 +89,7 @@ sub create_pin_dependencies_changeset {
             }
         }
     }
-    return $added_dependencies;
+    return $self->_apply_filter($added_dependencies);
 }
 
 sub create_update_dependencies_changeset {
@@ -110,7 +110,7 @@ sub create_update_dependencies_changeset {
             }
         }
     }
-    return $added_dependencies;
+    return $self->_apply_filter($added_dependencies);
 }
 
 sub _find_dep {
@@ -127,6 +127,21 @@ sub _should_skip {
     my ($self, $module) = @_;
     return 1 if $module eq 'perl';
     return Module::CoreList::is_core($module);
+}
+
+sub _apply_filter {
+    my ($self, $changeset) = @_;
+    if (my $filter = $self->options->{filter}) {
+        $changeset = [ grep { $_->[0] =~ $filter } @$changeset ];
+    }
+    if (my $ignore_filter = $self->options->{'ignore-filter'}) {
+        $changeset = [ grep { $_->[0] !~ $ignore_filter } @$changeset ];
+    }
+
+    if (my $limit = $self->options->{limit}) {
+        $changeset = [ splice(@$changeset, 0, $limit) ];
+    }
+    return $changeset;
 }
 
 
