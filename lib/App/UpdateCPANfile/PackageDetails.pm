@@ -12,10 +12,13 @@ sub new {
     bless {}, $class;
 }
 
+# Parsing detail is heavy operation.
+my $details_cache;
+
 sub details {
     my ($self) = @_;
-    if ($self->{details}) {
-        return $self->{details};
+    if ($details_cache) {
+        return $details_cache;
     }
 
     my $agent = LWP::UserAgent->new(
@@ -28,7 +31,11 @@ sub details {
     $file->print($res->content);
     $file->setpos(0);
 
-    $self->{details} = CPAN::PackageDetails->read( $file );
+    $details_cache = CPAN::PackageDetails->read( $file );
+}
+
+sub clear_details_cache {
+    $details_cache = undef;
 }
 
 sub package_object {

@@ -37,3 +37,9 @@ To execute for other project in directory, you can specify path of cpanfile and 
 
     $ update-cpanfile pin <path_to_cpanfile> <path_to_cpanfile.snapshot>
     $ update-cpanfile update <path_to_cpanfile>
+
+# OPTIONS
+
+- --limit=n
+- --filter=FILTER
+- --ignore-filter=FILTER

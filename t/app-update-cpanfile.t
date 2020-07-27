@@ -15,6 +15,15 @@ subtest 'initialize' => sub {
     isa_ok $app, 'App::UpdateCPANfile';
     is $app->path, 'my.cpanfile';
     is $app->snapshot_path, 'my.cpanfile.snapshot';
+    is $app->options, {};
+};
+
+subtest 'initialize with options' => sub {
+    my $app = App::UpdateCPANfile->new('my.cpanfile', 'my.cpanfile.snapshot', { limit => 3, filter => 'foo', 'ignore-filter' => 'bar'});
+    isa_ok $app, 'App::UpdateCPANfile';
+    is $app->path, 'my.cpanfile';
+    is $app->snapshot_path, 'my.cpanfile.snapshot';
+    is $app->options, { limit => 3, filter => 'foo', 'ignore-filter' => 'bar'};
 };
 
 subtest 'initialize without path' => sub {
@@ -46,6 +55,42 @@ subtest 'it creates changeset for pin dependencies' => sub {
         [
             "Test::Class",
             "0.49",
+        ],
+    ];
+};
+
+subtest 'it applies limit' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/simple/cpanfile', 't/fixtures/simple/cpanfile.snapshot', {limit => 1});
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Module::CPANfile",
+            "1.1003"
+        ],
+    ];
+};
+
+subtest 'it applies filter' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/simple/cpanfile', 't/fixtures/simple/cpanfile.snapshot', {filter => 'Class'});
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Test::Class",
+            "0.49",
+        ],
+    ];
+};
+
+subtest 'it applies filter' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/simple/cpanfile', 't/fixtures/simple/cpanfile.snapshot', {'ignore-filter' => 'Class'});
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Module::CPANfile",
+            "1.1003"
         ],
     ];
 };
