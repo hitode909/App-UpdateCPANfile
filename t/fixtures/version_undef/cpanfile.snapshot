@@ -1,0 +1,236 @@
+# carton snapshot format: version 1.0
+DISTRIBUTIONS
+  Class-Accessor-0.51
+    pathname: K/KA/KASEI/Class-Accessor-0.51.tar.gz
+    provides:
+      Class::Accessor 0.51
+      Class::Accessor::Fast 0.51
+      Class::Accessor::Faster 0.51
+    requirements:
+      ExtUtils::MakeMaker 0
+      base 1.01
+  Class-Data-Inheritable-0.08
+    pathname: T/TM/TMTM/Class-Data-Inheritable-0.08.tar.gz
+    provides:
+      Class::Data::Inheritable 0.08
+    requirements:
+      ExtUtils::MakeMaker 0
+  Class-Trigger-0.15
+    pathname: M/MI/MIYAGAWA/Class-Trigger-0.15.tar.gz
+    provides:
+      Class::Trigger 0.15
+    requirements:
+      ExtUtils::MakeMaker 6.59
+      IO::Scalar 0
+      IO::WrapTie 0
+      Test::More 0.32
+      perl 5.008001
+  DBI-1.643
+    pathname: T/TI/TIMB/DBI-1.643.tar.gz
+    provides:
+      Bundle::DBI 12.008696
+      DBD::DBM 0.08
+      DBD::DBM::Statement 0.08
+      DBD::DBM::Table 0.08
+      DBD::DBM::db 0.08
+      DBD::DBM::dr 0.08
+      DBD::DBM::st 0.08
+      DBD::ExampleP 12.014311
+      DBD::ExampleP::db 12.014311
+      DBD::ExampleP::dr 12.014311
+      DBD::ExampleP::st 12.014311
+      DBD::File 0.44
+      DBD::File::DataSource::File 0.44
+      DBD::File::DataSource::Stream 0.44
+      DBD::File::Statement 0.44
+      DBD::File::Table 0.44
+      DBD::File::TableSource::FileSystem 0.44
+      DBD::File::db 0.44
+      DBD::File::dr 0.44
+      DBD::File::st 0.44
+      DBD::Gofer 0.015327
+      DBD::Gofer::Policy::Base 0.010088
+      DBD::Gofer::Policy::classic 0.010088
+      DBD::Gofer::Policy::pedantic 0.010088
+      DBD::Gofer::Policy::rush 0.010088
+      DBD::Gofer::Transport::Base 0.014121
+      DBD::Gofer::Transport::corostream undef
+      DBD::Gofer::Transport::null 0.010088
+      DBD::Gofer::Transport::pipeone 0.010088
+      DBD::Gofer::Transport::stream 0.014599
+      DBD::Gofer::db 0.015327
+      DBD::Gofer::dr 0.015327
+      DBD::Gofer::st 0.015327
+      DBD::Mem 0.001
+      DBD::Mem::DataSource 0.001
+      DBD::Mem::Statement 0.001
+      DBD::Mem::Table 0.001
+      DBD::Mem::db 0.001
+      DBD::Mem::dr 0.001
+      DBD::Mem::st 0.001
+      DBD::NullP 12.014715
+      DBD::NullP::db 12.014715
+      DBD::NullP::dr 12.014715
+      DBD::NullP::st 12.014715
+      DBD::Proxy 0.2004
+      DBD::Proxy::RPC::PlClient 0.2004
+      DBD::Proxy::db 0.2004
+      DBD::Proxy::dr 0.2004
+      DBD::Proxy::st 0.2004
+      DBD::Sponge 12.010003
+      DBD::Sponge::db 12.010003
+      DBD::Sponge::dr 12.010003
+      DBD::Sponge::st 12.010003
+      DBDI 12.015129
+      DBI 1.643
+      DBI::Const::GetInfo::ANSI 2.008697
+      DBI::Const::GetInfo::ODBC 2.011374
+      DBI::Const::GetInfoReturn 2.008697
+      DBI::Const::GetInfoType 2.008697
+      DBI::DBD 12.015129
+      DBI::DBD::Metadata 2.014214
+      DBI::DBD::SqlEngine 0.06
+      DBI::DBD::SqlEngine::DataSource 0.06
+      DBI::DBD::SqlEngine::Statement 0.06
+      DBI::DBD::SqlEngine::Table 0.06
+      DBI::DBD::SqlEngine::TableSource 0.06
+      DBI::DBD::SqlEngine::TieMeta 0.06
+      DBI::DBD::SqlEngine::TieTables 0.06
+      DBI::DBD::SqlEngine::db 0.06
+      DBI::DBD::SqlEngine::dr 0.06
+      DBI::DBD::SqlEngine::st 0.06
+      DBI::Gofer::Execute 0.014283
+      DBI::Gofer::Request 0.012537
+      DBI::Gofer::Response 0.011566
+      DBI::Gofer::Serializer::Base 0.009950
+      DBI::Gofer::Serializer::DataDumper 0.009950
+      DBI::Gofer::Serializer::Storable 0.015586
+      DBI::Gofer::Transport::Base 0.012537
+      DBI::Gofer::Transport::pipeone 0.012537
+      DBI::Gofer::Transport::stream 0.012537
+      DBI::Profile 2.015065
+      DBI::ProfileData 2.010008
+      DBI::ProfileDumper 2.015325
+      DBI::ProfileDumper::Apache 2.014121
+      DBI::ProfileSubs 0.009396
+      DBI::ProxyServer 0.3005
+      DBI::ProxyServer::db 0.3005
+      DBI::ProxyServer::dr 0.3005
+      DBI::ProxyServer::st 0.3005
+      DBI::SQL::Nano 1.015544
+      DBI::SQL::Nano::Statement_ 1.015544
+      DBI::SQL::Nano::Table_ 1.015544
+      DBI::Util::CacheMemory 0.010315
+      DBI::Util::_accessor 0.009479
+      DBI::common 1.643
+    requirements:
+      ExtUtils::MakeMaker 6.48
+      Test::Simple 0.90
+      perl 5.008001
+  Data-ObjectDriver-0.19
+    pathname: S/SI/SIXAPART/Data-ObjectDriver-0.19.tar.gz
+    provides:
+      Data::ObjectDriver 0.19
+      Data::ObjectDriver::BaseObject undef
+      Data::ObjectDriver::BaseView undef
+      Data::ObjectDriver::Driver::BaseCache undef
+      Data::ObjectDriver::Driver::Cache::Apache undef
+      Data::ObjectDriver::Driver::Cache::Cache undef
+      Data::ObjectDriver::Driver::Cache::Memcached undef
+      Data::ObjectDriver::Driver::Cache::RAM undef
+      Data::ObjectDriver::Driver::DBD undef
+      Data::ObjectDriver::Driver::DBD::Oracle undef
+      Data::ObjectDriver::Driver::DBD::Oracle::db undef
+      Data::ObjectDriver::Driver::DBD::Pg undef
+      Data::ObjectDriver::Driver::DBD::SQLite undef
+      Data::ObjectDriver::Driver::DBD::mysql undef
+      Data::ObjectDriver::Driver::DBI undef
+      Data::ObjectDriver::Driver::GearmanDBI undef
+      Data::ObjectDriver::Driver::MultiPartition undef
+      Data::ObjectDriver::Driver::Multiplexer undef
+      Data::ObjectDriver::Driver::Partition undef
+      Data::ObjectDriver::Driver::SimplePartition undef
+      Data::ObjectDriver::Errors undef
+      Data::ObjectDriver::Iterator undef
+      Data::ObjectDriver::Profiler undef
+      Data::ObjectDriver::ResultSet undef
+      Data::ObjectDriver::SQL undef
+      Data::ObjectDriver::SQL::Oracle undef
+    requirements:
+      Class::Accessor::Fast 0
+      Class::Data::Inheritable 0
+      Class::Trigger 0
+      DBI 0
+      ExtUtils::MakeMaker 6.59
+      List::Util 0
+      Module::Build::Tiny 0.035
+      Test::Exception 0
+      perl 5.006001
+  IO-Stringy-2.113
+    pathname: C/CA/CAPOEIRAB/IO-Stringy-2.113.tar.gz
+    provides:
+      IO::AtomicFile 2.113
+      IO::InnerFile 2.113
+      IO::Lines 2.113
+      IO::Scalar 2.113
+      IO::ScalarArray 2.113
+      IO::Stringy 2.113
+      IO::Wrap 2.113
+      IO::WrapTie 2.113
+    requirements:
+      Carp 0
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      File::Spec 0
+      FileHandle 0
+      IO::File 0
+      IO::Handle 0
+      Symbol 0
+      overload 0
+      parent 0
+      strict 0
+      warnings 0
+  Sub-Uplevel-0.2800
+    pathname: D/DA/DAGOLDEN/Sub-Uplevel-0.2800.tar.gz
+    provides:
+      Sub::Uplevel 0.2800
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 6.17
+      constant 0
+      perl 5.006
+      strict 0
+      warnings 0
+  Test-Exception-0.43
+    pathname: E/EX/EXODIST/Test-Exception-0.43.tar.gz
+    provides:
+      Test::Exception 0.43
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Sub::Uplevel 0.18
+      Test::Builder 0.7
+      Test::Builder::Tester 1.07
+      Test::Harness 2.03
+      base 0
+      perl 5.006001
+      strict 0
+      warnings 0
+  TheSchwartz-1.15
+    pathname: A/AK/AKIYM/TheSchwartz-1.15.tar.gz
+    provides:
+      TheSchwartz 1.15
+      TheSchwartz::Error undef
+      TheSchwartz::ExitStatus undef
+      TheSchwartz::FuncMap undef
+      TheSchwartz::Job undef
+      TheSchwartz::JobHandle undef
+      TheSchwartz::Worker undef
+    requirements:
+      Class::Accessor::Fast 0
+      Data::ObjectDriver 0.04
+      Digest::MD5 0
+      Module::Build::Tiny 0.035
+      Storable 0
+      perl 5.008001

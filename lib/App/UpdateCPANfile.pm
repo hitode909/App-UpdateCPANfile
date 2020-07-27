@@ -85,7 +85,7 @@ sub create_pin_dependencies_changeset {
 
             my $dep = $self->_find_dep($distributions, $module);
             my $dep_version = defined $dep && $dep->version_for($module);
-            if (defined $dep && defined $dep_version && (! defined $version || $version ne $dep_version)) {
+            if (defined $dep && defined $dep_version && (! defined $version || $version ne $dep_version) && ($dep_version ne 'undef')) {
                 push @$added_dependencies, [ $module, $dep_version];
             }
         }
