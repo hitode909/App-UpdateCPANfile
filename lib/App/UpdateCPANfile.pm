@@ -9,7 +9,7 @@ use App::UpdateCPANfile::PackageDetails;
 use CPAN::DistnameInfo;
 use Module::CoreList;
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 sub new {
     my ($class, $path, $snapshot_path, $options) = @_;
