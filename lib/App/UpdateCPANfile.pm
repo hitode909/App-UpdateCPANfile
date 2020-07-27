@@ -86,7 +86,7 @@ sub create_pin_dependencies_changeset {
             my $dep = $self->_find_dep($distributions, $module);
             my $dep_version = defined $dep && $dep->version_for($module);
             if (defined $dep && defined $dep_version && (! defined $version || $version ne $dep_version) && ($dep_version ne 'undef')) {
-                push @$added_dependencies, [ $module, $dep_version];
+                push @$added_dependencies, [ $module, "== $dep_version"];
             }
         }
     }
@@ -107,7 +107,7 @@ sub create_update_dependencies_changeset {
 
             my $latest_version = $self->package_details->latest_version_for_package($module);
             if (defined $latest_version && (! defined $version || $version ne $latest_version)) {
-                push @$added_dependencies, [ $module, $latest_version];
+                push @$added_dependencies, [ $module, "== $latest_version"];
             }
         }
     }
