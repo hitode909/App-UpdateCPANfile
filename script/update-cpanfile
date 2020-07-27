@@ -4,15 +4,24 @@ use strict;
 use warnings;
 use App::UpdateCPANfile;
 
-use Getopt::Long qw(:config posix_default no_ignore_case);
+use Getopt::Long qw(:config posix_default no_ignore_case pass_through);
+
+my @first_arguments;
+while (defined $ARGV[0] && $ARGV[0] =~ /^[^-]/) {
+    push @first_arguments, shift @ARGV;
+}
+
 GetOptions(
-    \my %options, qw/
+    \my %options, qw{
     limit=n
     filter=s
     ignore-filter=s
-/);
+});
 
-my ($command, $cpanfile, $cpanfile_snapshot) = shift @ARGV;
+my @rest_arguments = @ARGV;
+
+my ($command, $cpanfile, $cpanfile_snapshot) = (@first_arguments, @rest_arguments);
+
 my $app = App::UpdateCPANfile->new($cpanfile, $cpanfile_snapshot, \%options);
 
 my $method = {
