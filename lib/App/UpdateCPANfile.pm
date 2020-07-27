@@ -74,7 +74,7 @@ sub create_pin_dependencies_changeset {
     my ($self) = @_;
 
     my $prereqs = $self->parser->prereqs->as_string_hash;
-    my $deps = App::UpdateCPANfile::CPANfileSnapshotParser->scan_deps($self->snapshot_path);
+    my $distributions = App::UpdateCPANfile::CPANfileSnapshotParser->scan_deps($self->snapshot_path);
 
     my $added_dependencies = [];
 
@@ -83,9 +83,10 @@ sub create_pin_dependencies_changeset {
             next if $self->_should_skip($module);
             my $version = $prereqs->{$phase}->{$module};
 
-            my $dep = $self->_find_dep($deps, $module);
-            if ($dep && (! defined $version || $version ne $dep->version)) {
-                push @$added_dependencies, [ $module, $dep->version];
+            my $dep = $self->_find_dep($distributions, $module);
+            my $dep_version = defined $dep && $dep->version_for($module);
+            if (defined $dep && defined $dep_version && (! defined $version || $version ne $dep_version)) {
+                push @$added_dependencies, [ $module, $dep_version];
             }
         }
     }
@@ -114,11 +115,9 @@ sub create_update_dependencies_changeset {
 }
 
 sub _find_dep {
-    my ($self, $deps, $module) = @_;;
-    my $package_object = $self->package_details->package_object($module);
-    my $distname = CPAN::DistnameInfo->new($package_object->path)->dist;
-    for my $dep (@$deps) {
-        return $dep if $dep->dist eq $distname;
+    my ($self, $distributions, $module) = @_;;
+    for my $dist (@$distributions) {
+        return $dist if $dist->provides_module($module);
     }
     return undef;
 }

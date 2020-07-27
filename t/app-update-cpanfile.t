@@ -59,6 +59,18 @@ subtest 'it creates changeset for pin dependencies' => sub {
     ];
 };
 
+subtest 'it creates changeset which aligns to provided version' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/provides_different_version/cpanfile', 't/fixtures/provides_different_version/cpanfile.snapshot');
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Unicode::GCString",
+            "2013.10"
+        ],
+    ], 'Unicode::GCString is aligned to 2013.10, not 2018.003';
+};
+
 subtest 'it applies limit' => sub {
     my $app = App::UpdateCPANfile->new('t/fixtures/simple/cpanfile', 't/fixtures/simple/cpanfile.snapshot', {limit => 1});
 
