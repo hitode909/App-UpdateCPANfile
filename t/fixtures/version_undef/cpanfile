@@ -1,0 +1,3 @@
+requires 'TheSchwartz'; # provided version is 1.15
+requires 'TheSchwartz::Worker'; # provided version is undef
+requires 'TheSchwartz::Job'; # provided version is undef

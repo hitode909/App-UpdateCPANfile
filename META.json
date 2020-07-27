@@ -44,6 +44,7 @@
          "requires" : {
             "CPAN::DistnameInfo" : "0",
             "CPAN::PackageDetails" : "0",
+            "Carton" : "0",
             "Getopt::Long" : "0",
             "IO::String" : "0",
             "LWP::UserAgent" : "0",
