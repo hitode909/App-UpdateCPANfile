@@ -189,9 +189,11 @@ subtest 'it applies filter' => sub {
 };
 
 subtest 'it handles core modules' => sub {
+    # XXX: Core modules are depends on perl's version
     my $app = App::UpdateCPANfile->new('t/fixtures/coremodules/cpanfile', 't/fixtures/coremodules/cpanfile.snapshot');
 
-    subtest 'pin' => sub {
+    subtest 'pin(5.30)' => sub {
+        local $] = '5.030000';
         my $pin = $app->create_pin_dependencies_changeset;
         is $pin, [
             [
@@ -201,7 +203,8 @@ subtest 'it handles core modules' => sub {
         ], "pin Furl only. Installed File::basename and Encode are core modules.";
     };
 
-    subtest 'update' => sub {
+    subtest 'update(5.30)' => sub {
+        local $] = '5.030000';
         my $update = $app->create_update_dependencies_changeset;
         is $update, [
             [
@@ -213,6 +216,17 @@ subtest 'it handles core modules' => sub {
                 "== 3.13"
             ],
         ], 'Encode has latest version in CPAN, but latest File::basename is still a core module.';
+    };
+
+    subtest 'update(5.32)' => sub {
+    local $] = '5.032000';
+        my $update = $app->create_update_dependencies_changeset;
+        is $update, [
+            [
+                "Furl",
+                "== 3.13"
+            ],
+        ], '5.32 has latest Encode';
     };
 };
 
