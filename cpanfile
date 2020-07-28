@@ -19,4 +19,5 @@ on 'test' => sub {
     requires 'File::Copy::Recursive';
     requires 'Path::Class';
     requires 'Test::WWW::Stub';
+    requires 'Module::CoreList', '>= 5.20200717';
 };

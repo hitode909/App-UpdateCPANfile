@@ -61,6 +61,7 @@
             "File::Spec::Functions" : "0",
             "File::Temp" : "0",
             "FindBin" : "0",
+            "Module::CoreList" : "5.20200717",
             "Path::Class" : "0",
             "Test2::V0" : "0",
             "Test::WWW::Stub" : "0"

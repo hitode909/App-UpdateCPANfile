@@ -1,2 +1,3 @@
 requires 'File::Basename';
+requires 'Encode';
 requires 'Furl';

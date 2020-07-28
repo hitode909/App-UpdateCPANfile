@@ -82,10 +82,11 @@ sub create_pin_dependencies_changeset {
     my $requirements = $prereqs->merged_requirements([$self->parser->prereqs->phases], [keys %$all_phases]);
 
     for my $module (sort $requirements->required_modules) {
-        next if $self->_should_skip($module);
+        next if $self->_is_perl($module);
         my $required_version = $requirements->requirements_for_module($module);
         my $installed_module = $self->_find_installed_module($distributions, $module);
         my $installed_version = defined $installed_module && $installed_module->version_for($module);
+        next if $self->_is_core_module($module, $installed_version);
         if (defined $installed_module && defined $installed_version && (! defined $required_version || $required_version ne "== $installed_version") && ($installed_version ne 'undef')) {
             push @$added_dependencies, [ $module, "== $installed_version"];
         }
@@ -113,10 +114,11 @@ sub create_update_dependencies_changeset {
     my $added_dependencies = [];
 
     for my $module (sort $requirements->required_modules) {
-        next if $self->_should_skip($module);
         my $required_version = $requirements->requirements_for_module($module);
+        next if $self->_is_perl($module, $required_version);
 
         my $latest_version = $self->package_details->latest_version_for_package($module);
+        next if $self->_is_core_module($module, $latest_version);
         if (defined $latest_version && (! defined $required_version || $required_version ne "== $latest_version")) {
             push @$added_dependencies, [ $module, "== $latest_version"];
         }
@@ -132,10 +134,18 @@ sub _find_installed_module {
     return undef;
 }
 
-sub _should_skip {
-    my ($self, $module) = @_;
-    return 1 if $module eq 'perl';
-    return Module::CoreList::is_core($module);
+sub _is_perl {
+    my ($self, $module, $installed_version) = @_;
+    return $module eq 'perl';
+}
+
+sub _is_core_module {
+    my ($self, $module, $target_version) = @_;
+    return unless defined $target_version;
+
+    my $core_version = Module::CoreList::find_version($])->{$module};
+    return unless defined $core_version;
+    return $core_version eq $target_version;
 }
 
 sub _apply_filter {
