@@ -84,10 +84,14 @@ subtest 'it converts suggests too' => sub {
             "Module::CPANfile",
             "== 1.1003"
         ],
+        [
+            "Test::Class",
+            "== 0.49",
+        ],
     ];
 };
 
-subtest 'it writes to cpanfile' => sub {
+subtest "it writes suggests, recommends to cpanfile. It doesn't write conflicts" => sub {
     my $dir = t::lib::SetupFixture::prepare_test_code('suggests');
     my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
 
@@ -96,6 +100,8 @@ subtest 'it writes to cpanfile' => sub {
     my $saved_content = file("$dir/cpanfile")->slurp;
     is $saved_content, <<CPANFILE;
 suggests 'Module::CPANfile', '== 1.1003';
+recommends 'Test::Class', '== 0.49';
+conflicts 'Furl';
 CPANFILE
 };
 

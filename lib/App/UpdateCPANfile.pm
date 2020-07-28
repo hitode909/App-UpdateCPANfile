@@ -56,6 +56,9 @@ sub pin_dependencies {
     my $writer = $self->writer;
     for my $change (@$changeset) {
         $writer->add_prereq(@$change);
+        $writer->add_prereq(@$change, relationship => 'suggests');
+        $writer->add_prereq(@$change, relationship => 'recommends');
+        # Don't touch conflicts
     }
     $writer->save($self->path);
 }
