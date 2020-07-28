@@ -235,6 +235,35 @@ subtest 'it creates changeset for update' => sub {
     ];
 };
 
+subtest 'it handles == for update' => sub {
+    my $dir = t::lib::SetupFixture::prepare_test_code('with_exact');
+
+    subtest 'first time' => sub {
+        my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
+
+        my $pin = $app->create_update_dependencies_changeset;
+        my $update = $app->create_update_dependencies_changeset;
+        is $update, [
+            [
+                "Module::CPANfile",
+                "== 1.1004"
+            ],
+            [
+                "Test::Class",
+                "== 0.50",
+            ],
+        ];
+        $app->update_dependencies; # write here
+    };
+    subtest 'second time, there are no change' => sub {
+        my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
+
+        my $pin = $app->create_update_dependencies_changeset;
+        my $update = $app->create_update_dependencies_changeset;
+        is $update, [];
+    };
+};
+
 subtest 'it writes to cpanfile' => sub {
     my $dir = t::lib::SetupFixture::prepare_test_code('simple');
     my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");

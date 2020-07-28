@@ -117,7 +117,7 @@ sub create_update_dependencies_changeset {
         my $required_version = $requirements->requirements_for_module($module);
 
         my $latest_version = $self->package_details->latest_version_for_package($module);
-        if (defined $latest_version && (! defined $required_version || $required_version ne $latest_version)) {
+        if (defined $latest_version && (! defined $required_version || $required_version ne "== $latest_version")) {
             push @$added_dependencies, [ $module, "== $latest_version"];
         }
     }
