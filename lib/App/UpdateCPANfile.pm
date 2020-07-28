@@ -53,24 +53,14 @@ sub package_details {
 sub pin_dependencies {
     my ($self) = @_;
     my $changeset = $self->create_pin_dependencies_changeset;
-    my $writer = $self->writer;
-    for my $change (@$changeset) {
-        $writer->add_prereq(@$change);
-        $writer->add_prereq(@$change, relationship => 'suggests');
-        $writer->add_prereq(@$change, relationship => 'recommends');
-        # Don't touch conflicts
-    }
-    $writer->save($self->path);
+    $self->_save_changes_to_file($changeset);
 }
 
 sub update_dependencies {
     my ($self) = @_;
     my $changeset = $self->create_update_dependencies_changeset;
     my $writer = $self->writer;
-    for my $change (@$changeset) {
-        $writer->add_prereq(@$change);
-    }
-    $writer->save($self->path);
+    $self->_save_changes_to_file($changeset);
 }
 
 sub create_pin_dependencies_changeset {
@@ -108,19 +98,27 @@ sub create_pin_dependencies_changeset {
 sub create_update_dependencies_changeset {
     my ($self) = @_;
 
-    my $prereqs = $self->parser->prereqs->as_string_hash;
+    my $prereqs = $self->parser->prereqs;
+
+    my $all_phases = {};
+    for my $phase ($prereqs->phases) {
+        for my $type ($prereqs->types_in($phase)) {
+            $all_phases->{$type}++;
+        }
+    }
+
+    # If arguments are omitted, it defaults to "runtime", "build" and "test" for phases and "requires" and "recommends" for types.
+    my $requirements = $prereqs->merged_requirements([$self->parser->prereqs->phases], [keys %$all_phases]);
 
     my $added_dependencies = [];
 
-    for my $phase (sort keys %$prereqs) {
-        for my $module (sort keys %{$prereqs->{$phase}->{requires}}) {
-            next if $self->_should_skip($module);
-            my $version = $prereqs->{$phase}->{$module};
+    for my $module (sort $requirements->required_modules) {
+        next if $self->_should_skip($module);
+        my $required_version = $requirements->requirements_for_module($module);
 
-            my $latest_version = $self->package_details->latest_version_for_package($module);
-            if (defined $latest_version && (! defined $version || $version ne $latest_version)) {
-                push @$added_dependencies, [ $module, "== $latest_version"];
-            }
+        my $latest_version = $self->package_details->latest_version_for_package($module);
+        if (defined $latest_version && (! defined $required_version || $required_version ne $latest_version)) {
+            push @$added_dependencies, [ $module, "== $latest_version"];
         }
     }
     return $self->_apply_filter($added_dependencies);
@@ -155,6 +153,18 @@ sub _apply_filter {
     return $changeset;
 }
 
+sub _save_changes_to_file {
+    my ($self, $changeset) = @_;
+    my $writer = $self->writer;
+
+    for my $change (@$changeset) {
+        $writer->add_prereq(@$change);
+        $writer->add_prereq(@$change, relationship => 'suggests');
+        $writer->add_prereq(@$change, relationship => 'recommends');
+        # Don't touch conflicts
+    }
+    $writer->save($self->path);
+}
 
 1;
 __END__

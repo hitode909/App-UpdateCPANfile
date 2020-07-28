@@ -253,5 +253,19 @@ on 'test' => sub {
 CPANFILE
 };
 
+subtest "it writes suggests, recommends to cpanfile for udpate. It doesn't write conflicts" => sub {
+    my $dir = t::lib::SetupFixture::prepare_test_code('suggests');
+    my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
+
+    $app->update_dependencies;
+
+    my $saved_content = file("$dir/cpanfile")->slurp;
+    is $saved_content, <<CPANFILE;
+suggests 'Module::CPANfile', '== 1.1004';
+recommends 'Test::Class', '== 0.50';
+conflicts 'Furl';
+CPANFILE
+};
+
 done_testing;
 
