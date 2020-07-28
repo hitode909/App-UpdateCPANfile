@@ -75,6 +75,30 @@ subtest 'all phases are supported' => sub {
     ];
 };
 
+subtest 'it converts suggests too' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/suggests/cpanfile', 't/fixtures/suggests/cpanfile.snapshot');
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Module::CPANfile",
+            "== 1.1003"
+        ],
+    ];
+};
+
+subtest 'it writes to cpanfile' => sub {
+    my $dir = t::lib::SetupFixture::prepare_test_code('suggests');
+    my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
+
+    $app->pin_dependencies;
+
+    my $saved_content = file("$dir/cpanfile")->slurp;
+    is $saved_content, <<CPANFILE;
+suggests 'Module::CPANfile', '== 1.1003';
+CPANFILE
+};
+
 subtest 'it creates changeset for change >= into == for pinning' => sub {
     my $app = App::UpdateCPANfile->new('t/fixtures/with_version/cpanfile', 't/fixtures/with_version/cpanfile.snapshot');
 
