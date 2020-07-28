@@ -59,6 +59,29 @@ subtest 'it creates changeset for pin dependencies' => sub {
     ];
 };
 
+subtest 'it creates changeset for change >= into == for pinning' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/with_version/cpanfile', 't/fixtures/with_version/cpanfile.snapshot');
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Module::CPANfile",
+            "== 1.1003"
+        ],
+        [
+            "Test::Class",
+            "== 0.49",
+        ],
+    ];
+};
+
+subtest 'it skips == for pinning' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/with_exact/cpanfile', 't/fixtures/with_exact/cpanfile.snapshot');
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [];
+};
+
 subtest 'it creates changeset which aligns to provided version' => sub {
     my $app = App::UpdateCPANfile->new('t/fixtures/provides_different_version/cpanfile', 't/fixtures/provides_different_version/cpanfile.snapshot');
 
@@ -183,7 +206,6 @@ on 'test' => sub {
 };
 CPANFILE
 };
-
 
 done_testing;
 
