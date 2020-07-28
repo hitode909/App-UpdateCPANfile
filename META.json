@@ -43,6 +43,7 @@
       "runtime" : {
          "requires" : {
             "CPAN::DistnameInfo" : "0",
+            "CPAN::Meta::Prereqs" : "2.150010",
             "CPAN::PackageDetails" : "0",
             "Carton" : "0",
             "Getopt::Long" : "0",
@@ -78,7 +79,7 @@
          "web" : "https://github.com/hitode909/App-UpdateCPANfile"
       }
    },
-   "version" : "0.03",
+   "version" : "0.04",
    "x_authority" : "cpan:HITODE",
    "x_contributors" : [
       "hitode909 <hitode909@gmail.com>"
