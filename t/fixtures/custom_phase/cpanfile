@@ -1,0 +1,7 @@
+on 'develop' => sub {
+    requires 'Module::CPANfile';
+};
+
+on 'test' => sub {
+    requires 'Test::Class';
+};

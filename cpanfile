@@ -8,6 +8,7 @@ requires 'LWP::UserAgent';
 requires 'IO::String';
 requires 'Getopt::Long';
 requires 'Carton';
+requires 'CPAN::Meta::Prereqs', '>= 2.150010';
 
 on 'test' => sub {
     requires 'Test2::V0';

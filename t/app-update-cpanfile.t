@@ -50,13 +50,52 @@ subtest 'it creates changeset for pin dependencies' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "1.1003"
+            "== 1.1003"
         ],
         [
             "Test::Class",
-            "0.49",
+            "== 0.49",
         ],
     ];
+};
+
+subtest 'all phases are supported' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/custom_phase/cpanfile', 't/fixtures/custom_phase/cpanfile.snapshot');
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Module::CPANfile",
+            "== 1.1003"
+        ],
+        [
+            "Test::Class",
+            "== 0.49",
+        ],
+    ];
+};
+
+subtest 'it creates changeset for change >= into == for pinning' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/with_version/cpanfile', 't/fixtures/with_version/cpanfile.snapshot');
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Module::CPANfile",
+            "== 1.1003"
+        ],
+        [
+            "Test::Class",
+            "== 0.49",
+        ],
+    ];
+};
+
+subtest 'it skips == for pinning' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/with_exact/cpanfile', 't/fixtures/with_exact/cpanfile.snapshot');
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [];
 };
 
 subtest 'it creates changeset which aligns to provided version' => sub {
@@ -66,7 +105,7 @@ subtest 'it creates changeset which aligns to provided version' => sub {
     is $pin, [
         [
             "Unicode::GCString",
-            "2013.10"
+            "== 2013.10"
         ],
     ], 'Unicode::GCString is aligned to 2013.10, not 2018.003';
 };
@@ -78,7 +117,7 @@ subtest 'it ignores version=undef' => sub {
     is $pin, [
         [
             "TheSchwartz",
-            "1.15"
+            "== 1.15"
         ],
     ];
 };
@@ -90,7 +129,7 @@ subtest 'it applies limit' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "1.1003"
+            "== 1.1003"
         ],
     ];
 };
@@ -102,7 +141,7 @@ subtest 'it applies filter' => sub {
     is $pin, [
         [
             "Test::Class",
-            "0.49",
+            "== 0.49",
         ],
     ];
 };
@@ -114,7 +153,7 @@ subtest 'it applies filter' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "1.1003"
+            "== 1.1003"
         ],
     ];
 };
@@ -126,7 +165,7 @@ subtest 'it ignores core modules' => sub {
     is $pin, [
         [
             "Furl",
-            "3.13"
+            "== 3.13"
         ],
     ];
 };
@@ -141,10 +180,10 @@ subtest 'it writes to cpanfile' => sub {
     is $saved_content, <<CPANFILE;
 requires 'perl', '5.008001';
 
-requires 'Module::CPANfile', '1.1003';
+requires 'Module::CPANfile', '== 1.1003';
 
 on 'test' => sub {
-    requires 'Test::Class', '0.49';
+    requires 'Test::Class', '== 0.49';
 };
 CPANFILE
 };
@@ -157,11 +196,11 @@ subtest 'it creates changeset for update' => sub {
     is $update, [
         [
             "Module::CPANfile",
-            "1.1004"
+            "== 1.1004"
         ],
         [
             "Test::Class",
-            "0.50",
+            "== 0.50",
         ],
     ];
 };
@@ -176,14 +215,13 @@ subtest 'it writes to cpanfile' => sub {
     is $saved_content, <<CPANFILE;
 requires 'perl', '5.008001';
 
-requires 'Module::CPANfile', '1.1004';
+requires 'Module::CPANfile', '== 1.1004';
 
 on 'test' => sub {
-    requires 'Test::Class', '0.50';
+    requires 'Test::Class', '== 0.50';
 };
 CPANFILE
 };
-
 
 done_testing;
 
