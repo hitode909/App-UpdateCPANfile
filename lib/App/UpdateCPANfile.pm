@@ -75,12 +75,22 @@ sub create_pin_dependencies_changeset {
 
     my $distributions = App::UpdateCPANfile::CPANfileSnapshotParser->scan_deps($self->snapshot_path);
 
+    my $prereqs = $self->parser->prereqs;
     my $added_dependencies = [];
 
-    my $prereqs = $self->parser->prereqs->as_string_hash;
-    for my $module (sort $self->parser->prereqs->merged_requirements->required_modules) {
+    my $all_phases = {};
+    for my $phase ($prereqs->phases) {
+        for my $type ($prereqs->types_in($phase)) {
+            $all_phases->{$type}++;
+        }
+    }
+
+    # If arguments are omitted, it defaults to "runtime", "build" and "test" for phases and "requires" and "recommends" for types.
+    my $requirements = $prereqs->merged_requirements([$self->parser->prereqs->phases], [keys %$all_phases]);
+
+    for my $module (sort $requirements->required_modules) {
         next if $self->_should_skip($module);
-        my $required_version = $self->parser->prereqs->merged_requirements->requirements_for_module($module);
+        my $required_version = $requirements->requirements_for_module($module);
         my $installed_module = $self->_find_installed_module($distributions, $module);
         my $installed_version = defined $installed_module && $installed_module->version_for($module);
         if (defined $installed_module && defined $installed_version && (! defined $required_version || $required_version ne "== $installed_version") && ($installed_version ne 'undef')) {

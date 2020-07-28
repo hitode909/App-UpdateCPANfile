@@ -59,6 +59,22 @@ subtest 'it creates changeset for pin dependencies' => sub {
     ];
 };
 
+subtest 'all phases are supported' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/custom_phase/cpanfile', 't/fixtures/custom_phase/cpanfile.snapshot');
+
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        [
+            "Module::CPANfile",
+            "== 1.1003"
+        ],
+        [
+            "Test::Class",
+            "== 0.49",
+        ],
+    ];
+};
+
 subtest 'it creates changeset for change >= into == for pinning' => sub {
     my $app = App::UpdateCPANfile->new('t/fixtures/with_version/cpanfile', 't/fixtures/with_version/cpanfile.snapshot');
 
