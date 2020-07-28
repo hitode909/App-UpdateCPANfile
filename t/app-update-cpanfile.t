@@ -188,16 +188,32 @@ subtest 'it applies filter' => sub {
     ];
 };
 
-subtest 'it ignores core modules' => sub {
+subtest 'it handles core modules' => sub {
     my $app = App::UpdateCPANfile->new('t/fixtures/coremodules/cpanfile', 't/fixtures/coremodules/cpanfile.snapshot');
 
-    my $pin = $app->create_update_dependencies_changeset;
-    is $pin, [
-        [
-            "Furl",
-            "== 3.13"
-        ],
-    ];
+    subtest 'pin' => sub {
+        my $pin = $app->create_pin_dependencies_changeset;
+        is $pin, [
+            [
+                "Furl",
+                "== 3.13"
+            ],
+        ], "pin Furl only. Installed File::basename and Encode are core modules.";
+    };
+
+    subtest 'update' => sub {
+        my $update = $app->create_update_dependencies_changeset;
+        is $update, [
+            [
+                "Encode",
+                "== 3.06"
+            ],
+            [
+                "Furl",
+                "== 3.13"
+            ],
+        ], 'Encode has latest version in CPAN, but latest File::basename is still a core module.';
+    };
 };
 
 subtest 'it writes to cpanfile' => sub {
