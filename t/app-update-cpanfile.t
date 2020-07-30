@@ -95,7 +95,18 @@ subtest "it writes suggests, recommends to cpanfile. It doesn't write conflicts"
     my $dir = t::lib::SetupFixture::prepare_test_code('suggests');
     my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
 
-    $app->pin_dependencies;
+    my $pin = $app->pin_dependencies;
+    is $pin, [
+        [
+            "Module::CPANfile",
+            "== 1.1003"
+        ],
+        [
+            "Test::Class",
+            "== 0.49",
+        ],
+    ], 'it returns changeset';
+
 
     my $saved_content = file("$dir/cpanfile")->slurp;
     is $saved_content, <<CPANFILE;
@@ -298,7 +309,16 @@ subtest 'it writes to cpanfile' => sub {
     my $dir = t::lib::SetupFixture::prepare_test_code('simple');
     my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
 
-    $app->update_dependencies;
+    my $update = $app->update_dependencies;
+    is $update, [            [
+            "Module::CPANfile",
+            "== 1.1004"
+        ],
+        [
+            "Test::Class",
+            "== 0.50",
+        ],
+    ], 'It returns changeset';
 
     my $saved_content = file("$dir/cpanfile")->slurp;
     is $saved_content, <<CPANFILE;
