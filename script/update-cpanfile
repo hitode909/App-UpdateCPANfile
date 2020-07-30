@@ -2,6 +2,7 @@
 use 5.008001;
 use strict;
 use warnings;
+use feature 'say';
 use App::UpdateCPANfile;
 
 use Getopt::Long qw(:config posix_default no_ignore_case pass_through);
@@ -30,7 +31,15 @@ my $method = {
 }->{$command // ''};
 
 if ($method) {
-    $app->$method;
+    my $changeset = $app->$method;
+    if (@$changeset) {
+        # Should we print JSON instead of plain text?
+        my $operated = {pin => 'Pinned', update => 'Updated'}->{$command};
+        say "$operated @{[ scalar @$changeset ]} modules";
+        for my $change (@$changeset) {
+            say "- @{[ join(' ', @$change) ]}";
+        }
+    }
     exit 0;
 } else {
     warn <<'HELP';

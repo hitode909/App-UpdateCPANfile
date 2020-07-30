@@ -3,6 +3,9 @@ name: update-cpanfile
 on:
   schedule:
   - cron:  '0 0 * * *'
+  push:
+    paths:
+      - ".github/workflows/update-cpanfile.yml"
 
 jobs:
   update:
