@@ -151,7 +151,7 @@ subtest 'it creates changeset which aligns to provided version' => sub {
     ], 'Unicode::GCString is aligned to 2013.10, not 2018.003';
 };
 
-subtest 'it ignores version=undef' => sub {
+subtest 'it ignores version=undef for pinning' => sub {
     my $app = App::UpdateCPANfile->new('t/fixtures/version_undef/cpanfile', 't/fixtures/version_undef/cpanfile.snapshot');
 
     my $pin = $app->create_pin_dependencies_changeset;
@@ -161,6 +161,18 @@ subtest 'it ignores version=undef' => sub {
             "== 1.15"
         ],
     ];
+};
+
+subtest 'it ignores version=undef for updating' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/version_undef/cpanfile');
+
+    my $update = $app->create_update_dependencies_changeset;
+    is $update, [
+    [
+        "TheSchwartz",
+        "== 1.15"
+    ],
+]
 };
 
 subtest 'it applies limit' => sub {
