@@ -2,6 +2,9 @@ Revision history for Perl extension App-UpdateCPANfile
 
 {{$NEXT}}
 
+0.07 2020-08-14T01:27:59Z
+    - Ignore 'undef' version for updating.
+
 0.06 2020-07-30T09:51:22Z
     - Changed to print result.
 

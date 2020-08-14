@@ -80,7 +80,7 @@
          "web" : "https://github.com/hitode909/App-UpdateCPANfile"
       }
    },
-   "version" : "0.06",
+   "version" : "0.07",
    "x_authority" : "cpan:HITODE",
    "x_contributors" : [
       "hitode909 <hitode909@gmail.com>"
