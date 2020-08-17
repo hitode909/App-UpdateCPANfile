@@ -31,9 +31,9 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.PAT }}
-          title: ${{ steps.update.report.title }}
+          title: ${{ steps.report.outputs.title }}
           branch: update-cpanfile
           commit-message: Update cpanfile
           body: |
-            ${{ steps.update.report.body }}
+            ${{ steps.report.outputs.body }}
             Automated changes by [update-cpanfile](https://metacpan.org/pod/distribution/App-UpdateCPANfile/script/update-cpanfile)
