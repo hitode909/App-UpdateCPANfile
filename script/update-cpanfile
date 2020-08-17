@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use feature 'say';
 use App::UpdateCPANfile;
+use JSON;
 
 use Getopt::Long qw(:config posix_default no_ignore_case pass_through);
 
@@ -17,6 +18,7 @@ GetOptions(
     limit=n
     filter=s
     ignore-filter=s
+    output=s
 });
 
 my @rest_arguments = @ARGV;
@@ -32,12 +34,15 @@ my $method = {
 
 if ($method) {
     my $changeset = $app->$method;
-    if (@$changeset) {
-        # Should we print JSON instead of plain text?
-        my $operated = {pin => 'Pinned', update => 'Updated'}->{$command};
-        say "$operated @{[ scalar @$changeset ]} modules";
-        for my $change (@$changeset) {
-            say "- @{[ join(' ', @$change) ]}";
+    if (($options{output} // '') eq 'json') {
+        say encode_json($changeset);
+    } else {
+        if (@$changeset) {
+            my $operated = {pin => 'Pinned', update => 'Updated'}->{$command};
+            say "$operated @{[ scalar @$changeset ]} modules";
+            for my $change (@$changeset) {
+                say "- @{[ join(' ', @$change) ]}";
+            }
         }
     }
     exit 0;
@@ -110,5 +115,11 @@ To execute for other project in directory, you can specify path of cpanfile and 
 
 =item * --ignore-filter=FILTER
 
+=item * --output={text|json}
+
 =back
 
+Default output format is C<text>.
+When you set C<--output json>, the output format is like this: [[PACKAGE_NAME => REQUIRED_VERSION],...]
+
+    [["CPAN::PackageDetails","== 0.261"],["Carton","== 1.000034"]]
