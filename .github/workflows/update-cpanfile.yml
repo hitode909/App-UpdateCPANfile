@@ -23,7 +23,7 @@ jobs:
       - name: report
         id: report
         run: |
-          echo "::set-output name=title::Updated $(echo '${{ steps.update.outputs.updated_packages }}' | jq '[.[] | .[0]] | join(", ")')"
+          echo "::set-output name=title::Update $(echo '${{ steps.update.outputs.updated_packages }}' | jq -r '[.[] | .[0]] | join(", ")')"
           echo "::set-output name=body::$(echo '${{ steps.update.outputs.updated_packages }}' | jq -r '[.[] | ("- [" + .[0] + "](https://metacpan.org/pod/" + .[0] + ") " + .[1]) ] | join("%0A")')"
 
 
