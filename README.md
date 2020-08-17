@@ -43,3 +43,9 @@ To execute for other project in directory, you can specify path of cpanfile and 
 - --limit=n
 - --filter=FILTER
 - --ignore-filter=FILTER
+- --output={text|json}
+
+Default output format is `text`.
+When you set `--output json`, the output format is like this: \[\[PACKAGE\_NAME => REQUIRED\_VERSION\],...\]
+
+    [["CPAN::PackageDetails","== 0.261"],["Carton","== 1.000034"]]

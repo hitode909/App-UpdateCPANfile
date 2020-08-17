@@ -48,6 +48,7 @@
             "Carton" : "0",
             "Getopt::Long" : "0",
             "IO::String" : "0",
+            "JSON" : "0",
             "LWP::UserAgent" : "0",
             "Module::CPANfile" : "0",
             "Module::CPANfile::Writer" : "0",
