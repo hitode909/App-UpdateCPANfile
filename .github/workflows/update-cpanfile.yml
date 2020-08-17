@@ -23,8 +23,8 @@ jobs:
       - name: report
         id: report
         run: |
-          echo "::set-output name=title::Updated $(echo ${{ steps.update.outputs.updated_packages }} | jq 'length') items"
-          echo "::set-output name=body::$(echo ${{ steps.update.outputs.updated_packages }}  | jq '.[] | join(\" \")')//$'\n'/'%0A'}"
+          echo "::set-output name=title::Updated $(echo '${{ steps.update.outputs.updated_packages }}' | jq 'length') items"
+          echo "::set-output name=body::$(echo '${{ steps.update.outputs.updated_packages }}' | jq '.[] | join(\" \")')//$'\n'/'%0A'}"
 
 
       - name: Create Pull Request
