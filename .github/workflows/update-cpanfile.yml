@@ -24,7 +24,7 @@ jobs:
         id: report
         run: |
           echo "::set-output name=title::Updated $(echo '${{ steps.update.outputs.updated_packages }}' | jq 'length') items"
-          echo "::set-output name=body::$(echo '${{ steps.update.outputs.updated_packages }}' | jq -r '[.[] | join(" ")] | join("%0A")')"
+          echo "::set-output name=body::$(echo '${{ steps.update.outputs.updated_packages }}' | jq -r '[.[] | ("- [" + .[0] + "](https://metacpan.org/pod/" + .[0] + ") " + .[1]) ] | join("%0A")')"
 
 
       - name: Create Pull Request
