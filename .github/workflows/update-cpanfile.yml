@@ -17,7 +17,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: update
-        run: docker run -v `pwd`:/src -w /src perl:latest bash -c 'perl -v && cpanm --notest App::UpdateCPANfile && echo "##[set-output name=updated_packages;]$(update-cpanfile update)"'
+        run: docker run -v `pwd`:/src -w /src perl:latest bash -c 'perl -v && cpanm --notest App::UpdateCPANfile && echo "::set-output name=updated_packages::$(update-cpanfile update)"'
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
