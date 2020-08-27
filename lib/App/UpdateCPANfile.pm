@@ -6,7 +6,7 @@ use Module::CPANfile;
 use Module::CPANfile::Writer;
 use App::UpdateCPANfile::CPANfileSnapshotParser;
 use App::UpdateCPANfile::PackageDetails;
-use CPAN::DistnameInfo;
+use App::UpdateCPANfile::Change;
 use Module::CoreList;
 
 our $VERSION = "0.08";
@@ -90,7 +90,7 @@ sub create_pin_dependencies_changeset {
         my $installed_version = defined $installed_module && $installed_module->version_for($module);
         next if $self->_is_core_module($module, $installed_version);
         if (defined $installed_module && defined $installed_version && (! defined $required_version || $required_version ne "== $installed_version") && ($installed_version ne 'undef')) {
-            push @$added_dependencies, [ $module, "== $installed_version"];
+            push @$added_dependencies, App::UpdateCPANfile::Change->new(package_name => $module, version => $installed_version, path => $installed_module->pathname);
         }
 
     }
@@ -119,10 +119,12 @@ sub create_update_dependencies_changeset {
         my $required_version = $requirements->requirements_for_module($module);
         next if $self->_is_perl($module, $required_version);
 
-        my $latest_version = $self->package_details->latest_version_for_package($module);
+        my $package_object = $self->package_details->package_object($module);
+        next unless $package_object;
+        my $latest_version = $package_object->version;
         next if $self->_is_core_module($module, $latest_version);
         if (defined $latest_version && (! defined $required_version || $required_version ne "== $latest_version") && ($latest_version ne 'undef')) {
-            push @$added_dependencies, [ $module, "== $latest_version"];
+            push @$added_dependencies, App::UpdateCPANfile::Change->new(package_name => $module, version => $latest_version, path => $package_object->path);
         }
     }
     return $self->_apply_filter($added_dependencies);
@@ -153,10 +155,10 @@ sub _is_core_module {
 sub _apply_filter {
     my ($self, $changeset) = @_;
     if (my $filter = $self->options->{filter}) {
-        $changeset = [ grep { $_->[0] =~ $filter } @$changeset ];
+        $changeset = [ grep { $_->package_name =~ $filter } @$changeset ];
     }
     if (my $ignore_filter = $self->options->{'ignore-filter'}) {
-        $changeset = [ grep { $_->[0] !~ $ignore_filter } @$changeset ];
+        $changeset = [ grep { $_->package_name !~ $ignore_filter } @$changeset ];
     }
 
     if (my $limit = $self->options->{limit}) {
@@ -170,10 +172,9 @@ sub _save_changes_to_file {
     my $writer = $self->writer;
 
     for my $change (@$changeset) {
-        $writer->add_prereq(@$change);
-        $writer->add_prereq(@$change, relationship => 'suggests');
-        $writer->add_prereq(@$change, relationship => 'recommends');
-        # Don't touch conflicts
+        for my $prereq (@{$change->prereqs}) {
+            $writer->add_prereq(@$prereq);
+        }
     }
     $writer->save($self->path);
 }

@@ -48,14 +48,14 @@ subtest 'it creates changeset for pin dependencies' => sub {
 
     my $pin = $app->create_pin_dependencies_changeset;
     is $pin, [
-        [
-            "Module::CPANfile",
-            "== 1.1003"
-        ],
-        [
-            "Test::Class",
-            "== 0.49",
-        ],
+        object {
+            call package_name => "Module::CPANfile";
+            call version      => "1.1003";
+        },
+        object {
+            call package_name => "Test::Class";
+            call version      => "0.49";
+        },
     ];
 };
 
@@ -64,14 +64,14 @@ subtest 'all phases are supported' => sub {
 
     my $pin = $app->create_pin_dependencies_changeset;
     is $pin, [
-        [
-            "Module::CPANfile",
-            "== 1.1003"
-        ],
-        [
-            "Test::Class",
-            "== 0.49",
-        ],
+        object {
+            call package_name => "Module::CPANfile";
+            call version      => "1.1003";
+        },
+        object {
+            call package_name => "Test::Class";
+            call version      => "0.49";
+        },
     ];
 };
 
@@ -80,14 +80,14 @@ subtest 'it converts suggests too' => sub {
 
     my $pin = $app->create_pin_dependencies_changeset;
     is $pin, [
-        [
-            "Module::CPANfile",
-            "== 1.1003"
-        ],
-        [
-            "Test::Class",
-            "== 0.49",
-        ],
+        object {
+            call package_name => "Module::CPANfile";
+            call version      => "1.1003";
+        },
+        object {
+            call package_name => "Test::Class";
+            call version      => "0.49";
+        },
     ];
 };
 
@@ -97,14 +97,14 @@ subtest "it writes suggests, recommends to cpanfile. It doesn't write conflicts"
 
     my $pin = $app->pin_dependencies;
     is $pin, [
-        [
-            "Module::CPANfile",
-            "== 1.1003"
-        ],
-        [
-            "Test::Class",
-            "== 0.49",
-        ],
+        object {
+            call package_name => "Module::CPANfile";
+            call version      => "1.1003";
+        },
+        object {
+            call package_name => "Test::Class";
+            call version      => "0.49";
+        },
     ], 'it returns changeset';
 
 
@@ -121,14 +121,14 @@ subtest 'it creates changeset for change >= into == for pinning' => sub {
 
     my $pin = $app->create_pin_dependencies_changeset;
     is $pin, [
-        [
-            "Module::CPANfile",
-            "== 1.1003"
-        ],
-        [
-            "Test::Class",
-            "== 0.49",
-        ],
+        object {
+            call package_name => "Module::CPANfile";
+            call version      => "1.1003";
+        },
+        object {
+            call package_name => "Test::Class";
+            call version      => "0.49";
+        },
     ];
 };
 
@@ -144,10 +144,10 @@ subtest 'it creates changeset which aligns to provided version' => sub {
 
     my $pin = $app->create_pin_dependencies_changeset;
     is $pin, [
-        [
-            "Unicode::GCString",
-            "== 2013.10"
-        ],
+        object {
+            call package_name => "Unicode::GCString";
+            call version      => "2013.10";
+        },
     ], 'Unicode::GCString is aligned to 2013.10, not 2018.003';
 };
 
@@ -156,10 +156,10 @@ subtest 'it ignores version=undef for pinning' => sub {
 
     my $pin = $app->create_pin_dependencies_changeset;
     is $pin, [
-        [
-            "TheSchwartz",
-            "== 1.15"
-        ],
+        object {
+            call package_name => "TheSchwartz";
+            call version      => "1.15";
+        },
     ];
 };
 
@@ -168,11 +168,11 @@ subtest 'it ignores version=undef for updating' => sub {
 
     my $update = $app->create_update_dependencies_changeset;
     is $update, [
-    [
-        "TheSchwartz",
-        "== 1.15"
-    ],
-]
+        object {
+            call package_name => "TheSchwartz";
+            call version      => "1.15";
+        },
+    ];
 };
 
 subtest 'it applies limit' => sub {
@@ -180,10 +180,10 @@ subtest 'it applies limit' => sub {
 
     my $pin = $app->create_pin_dependencies_changeset;
     is $pin, [
-        [
-            "Module::CPANfile",
-            "== 1.1003"
-        ],
+        object {
+            call package_name => "Module::CPANfile";
+            call version      => "1.1003";
+        },
     ];
 };
 
@@ -192,10 +192,10 @@ subtest 'it applies filter' => sub {
 
     my $pin = $app->create_pin_dependencies_changeset;
     is $pin, [
-        [
-            "Test::Class",
-            "== 0.49",
-        ],
+        object {
+            call package_name => "Test::Class";
+            call version      => "0.49";
+        },
     ];
 };
 
@@ -204,10 +204,10 @@ subtest 'it applies filter' => sub {
 
     my $pin = $app->create_pin_dependencies_changeset;
     is $pin, [
-        [
-            "Module::CPANfile",
-            "== 1.1003"
-        ],
+        object {
+            call package_name => "Module::CPANfile";
+            call version      => "1.1003";
+        },
     ];
 };
 
@@ -219,10 +219,10 @@ subtest 'it handles core modules' => sub {
         local $] = '5.030000';
         my $pin = $app->create_pin_dependencies_changeset;
         is $pin, [
-            [
-                "Furl",
-                "== 3.13"
-            ],
+            object {
+                call package_name => "Furl";
+                call version      => "3.13";
+            },
         ], "pin Furl only. Installed File::basename and Encode are core modules.";
     };
 
@@ -230,14 +230,14 @@ subtest 'it handles core modules' => sub {
         local $] = '5.030000';
         my $update = $app->create_update_dependencies_changeset;
         is $update, [
-            [
-                "Encode",
-                "== 3.06"
-            ],
-            [
-                "Furl",
-                "== 3.13"
-            ],
+            object {
+                call package_name => "Encode";
+                call version      => "3.06";
+            },
+            object {
+                call package_name => "Furl";
+                call version      => "3.13";
+            },
         ], 'Encode has latest version in CPAN, but latest File::basename is still a core module.';
     };
 
@@ -245,10 +245,10 @@ subtest 'it handles core modules' => sub {
     local $] = '5.032000';
         my $update = $app->create_update_dependencies_changeset;
         is $update, [
-            [
-                "Furl",
-                "== 3.13"
-            ],
+            object {
+                call package_name => "Furl";
+                call version      => "3.13";
+            },
         ], '5.32 has latest Encode';
     };
 };
@@ -277,14 +277,14 @@ subtest 'it creates changeset for update' => sub {
 
     my $update = $app->create_update_dependencies_changeset;
     is $update, [
-        [
-            "Module::CPANfile",
-            "== 1.1004"
-        ],
-        [
-            "Test::Class",
-            "== 0.50",
-        ],
+        object {
+            call package_name => "Module::CPANfile";
+            call version      => "1.1004";
+        },
+        object {
+            call package_name => "Test::Class";
+            call version      => "0.50";
+        },
     ];
 };
 
@@ -297,14 +297,14 @@ subtest 'it handles == for update' => sub {
         my $pin = $app->create_update_dependencies_changeset;
         my $update = $app->create_update_dependencies_changeset;
         is $update, [
-            [
-                "Module::CPANfile",
-                "== 1.1004"
-            ],
-            [
-                "Test::Class",
-                "== 0.50",
-            ],
+            object {
+                call package_name => "Module::CPANfile";
+                call version      => "1.1004";
+            },
+            object {
+                call package_name => "Test::Class";
+                call version      => "0.50";
+            },
         ];
         $app->update_dependencies; # write here
     };
@@ -322,14 +322,15 @@ subtest 'it writes to cpanfile' => sub {
     my $app = App::UpdateCPANfile->new("$dir/cpanfile", "$dir/cpanfile.snapshot");
 
     my $update = $app->update_dependencies;
-    is $update, [            [
-            "Module::CPANfile",
-            "== 1.1004"
-        ],
-        [
-            "Test::Class",
-            "== 0.50",
-        ],
+    is $update, [
+        object {
+            call package_name => "Module::CPANfile";
+            call version      => "1.1004";
+        },
+        object {
+            call package_name => "Test::Class";
+            call version      => "0.50";
+        },
     ], 'It returns changeset';
 
     my $saved_content = file("$dir/cpanfile")->slurp;

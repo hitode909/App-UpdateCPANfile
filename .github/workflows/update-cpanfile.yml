@@ -18,14 +18,13 @@ jobs:
 
       - name: update
         id: update
-        run: docker run -v `pwd`:/src -w /src perl:latest bash -c 'perl -v && cpanm --notest App::UpdateCPANfile && echo "::set-output name=updated_packages::$(update-cpanfile update --output json)"'
+        run: docker run -v `pwd`:/src -w /src perl:latest bash -c 'perl -v && cpanm --notest App::UpdateCPANfile && echo "::set-output name=version::$(update-cpanfile --version)" && echo "::set-output name=updated_packages::$(update-cpanfile update --output json)"'
 
       - name: report
         id: report
         run: |
-          echo "::set-output name=title::Update $(echo '${{ steps.update.outputs.updated_packages }}' | jq -r '[.[] | .[0]] | join(", ")')"
-          echo "::set-output name=body::$(echo '${{ steps.update.outputs.updated_packages }}' | jq -r '[.[] | ("- [" + .[0] + "](https://metacpan.org/pod/" + .[0] + ") " + .[1]) ] | join("%0A")')"
-
+          echo "::set-output name=title::Update $(echo '${{ steps.update.outputs.updated_packages }}' | jq -r '[.[] | .package_name] | join(", ")')"
+          echo "::set-output name=body::$(echo '${{ steps.update.outputs.updated_packages }}' | jq -r 'map("- [\(.package_name)](https://metacpan.org/pod/\(.package_name)) == \(.version) ([Changes](https://metacpan.org/changes/distribution/\(.dist_name)))") | join("%0A")')"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
@@ -36,4 +35,4 @@ jobs:
           commit-message: Update cpanfile
           body: |
             ${{ steps.report.outputs.body }}
-            Automated changes by [update-cpanfile](https://metacpan.org/pod/distribution/App-UpdateCPANfile/script/update-cpanfile)
+            Automated changes by [update-cpanfile](https://metacpan.org/pod/distribution/App-UpdateCPANfile/script/update-cpanfile) version ${{ steps.update.outputs.version }}

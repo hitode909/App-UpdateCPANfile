@@ -19,11 +19,17 @@ GetOptions(
     filter=s
     ignore-filter=s
     output=s
+    version
 });
 
 my @rest_arguments = @ARGV;
 
 my ($command, $cpanfile, $cpanfile_snapshot) = (@first_arguments, @rest_arguments);
+
+if ($options{version}) {
+    say $App::UpdateCPANfile::VERSION;
+    exit 0;
+}
 
 my $app = App::UpdateCPANfile->new($cpanfile, $cpanfile_snapshot, \%options);
 
@@ -35,13 +41,13 @@ my $method = {
 if ($method) {
     my $changeset = $app->$method;
     if (($options{output} // '') eq 'json') {
-        say encode_json($changeset);
+        say encode_json([map { $_->as_hashref } @$changeset]);
     } else {
         if (@$changeset) {
             my $operated = {pin => 'Pinned', update => 'Updated'}->{$command};
             say "$operated @{[ scalar @$changeset ]} modules";
             for my $change (@$changeset) {
-                say "- @{[ join(' ', @$change) ]}";
+                say "- @{[ join(' ', $change->package_name => $change->version) ]}";
             }
         }
     }
@@ -117,9 +123,11 @@ To execute for other project in directory, you can specify path of cpanfile and 
 
 =item * --output={text|json}
 
+=item * --version
+
 =back
 
 Default output format is C<text>.
-When you set C<--output json>, the output format is like this: [[PACKAGE_NAME => REQUIRED_VERSION],...]
+When you set C<--output json>, the output format is like this: [{package_name: PACKAGE_NAME, version: VERSION, path: PATH, dist_name: DIST_NAME}, ...]
 
-    [["CPAN::PackageDetails","== 0.261"],["Carton","== 1.000034"]]
+    [{"package_name":"File::Copy::Recursive","version":"0.45","path":"D/DM/DMUEY/File-Copy-Recursive-0.45.tar.gz","dist_name":"File-Copy-Recursive"}]
