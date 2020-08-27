@@ -35,13 +35,13 @@ my $method = {
 if ($method) {
     my $changeset = $app->$method;
     if (($options{output} // '') eq 'json') {
-        say encode_json($changeset);
+        say encode_json([map { $_->as_hashref } @$changeset]);
     } else {
         if (@$changeset) {
             my $operated = {pin => 'Pinned', update => 'Updated'}->{$command};
             say "$operated @{[ scalar @$changeset ]} modules";
             for my $change (@$changeset) {
-                say "- @{[ join(' ', $change->[0] => $change->[1]) ]}";
+                say "- @{[ join(' ', $change->package_name => $change->version) ]}";
             }
         }
     }
@@ -120,6 +120,6 @@ To execute for other project in directory, you can specify path of cpanfile and 
 =back
 
 Default output format is C<text>.
-When you set C<--output json>, the output format is like this: [[PACKAGE_NAME => REQUIRED_VERSION, DISTRIBUTION_NAME],...]
+When you set C<--output json>, the output format is like this: [{package_name: PACKAGE_NAME, version: VERSION, path: PATH, dist_name: DIST_NAME}, ...]
 
-    [["CPAN::PackageDetails","== 0.261", "CPAN-PackageDetails"],["Carton","== 1.000034", "Carton"]]
+    [{"package_name":"File::Copy::Recursive","version":"0.45","path":"D/DM/DMUEY/File-Copy-Recursive-0.45.tar.gz","dist_name":"File-Copy-Recursive"}]
