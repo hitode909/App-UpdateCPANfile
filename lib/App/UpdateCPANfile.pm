@@ -90,7 +90,7 @@ sub create_pin_dependencies_changeset {
         my $installed_version = defined $installed_module && $installed_module->version_for($module);
         next if $self->_is_core_module($module, $installed_version);
         if (defined $installed_module && defined $installed_version && (! defined $required_version || $required_version ne "== $installed_version") && ($installed_version ne 'undef')) {
-            push @$added_dependencies, App::UpdateCPANfile::Change->new(package_name => $module, version => $installed_version);
+            push @$added_dependencies, App::UpdateCPANfile::Change->new(package_name => $module, version => $installed_version, path => $installed_module->pathname);
         }
 
     }
@@ -124,7 +124,7 @@ sub create_update_dependencies_changeset {
         my $latest_version = $package_object->version;
         next if $self->_is_core_module($module, $latest_version);
         if (defined $latest_version && (! defined $required_version || $required_version ne "== $latest_version") && ($latest_version ne 'undef')) {
-            push @$added_dependencies, App::UpdateCPANfile::Change->new(package_name => $module, version => $latest_version);
+            push @$added_dependencies, App::UpdateCPANfile::Change->new(package_name => $module, version => $latest_version, path => $package_object->path);
         }
     }
     return $self->_apply_filter($added_dependencies);
