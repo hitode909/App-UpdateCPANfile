@@ -1,6 +1,8 @@
 Revision history for Perl extension App-UpdateCPANfile
 
 {{$NEXT}}
+
+1.0.0 2020-08-27T16:17:29Z
     - BREAKING CHANGE: We changed JSON output format. New format is [{package_name, version, dist_name, path}]. This is useful when you want to create link to MetaCPAN's Changes page. For a specific example, take a look at .github/workflows/update-cpanfile.yml.
 
 0.08 2020-08-17T07:29:01Z
