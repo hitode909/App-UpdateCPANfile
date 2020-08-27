@@ -27,6 +27,7 @@ sub prereqs {
         [$self->package_name => "== @{[ $self->version ]}"],
         [$self->package_name => "== @{[ $self->version ]}", relationship => 'suggests'],
         [$self->package_name => "== @{[ $self->version ]}", relationship => 'recommends'],
+        # Don't touch conflicts
     ];
 }
 
