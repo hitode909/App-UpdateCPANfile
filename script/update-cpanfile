@@ -19,11 +19,17 @@ GetOptions(
     filter=s
     ignore-filter=s
     output=s
+    version
 });
 
 my @rest_arguments = @ARGV;
 
 my ($command, $cpanfile, $cpanfile_snapshot) = (@first_arguments, @rest_arguments);
+
+if ($options{version}) {
+    say $App::UpdateCPANfile::VERSION;
+    exit 0;
+}
 
 my $app = App::UpdateCPANfile->new($cpanfile, $cpanfile_snapshot, \%options);
 
@@ -116,6 +122,8 @@ To execute for other project in directory, you can specify path of cpanfile and 
 =item * --ignore-filter=FILTER
 
 =item * --output={text|json}
+
+=item * --version
 
 =back
 
