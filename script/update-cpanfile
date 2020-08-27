@@ -120,6 +120,6 @@ To execute for other project in directory, you can specify path of cpanfile and 
 =back
 
 Default output format is C<text>.
-When you set C<--output json>, the output format is like this: [[PACKAGE_NAME => REQUIRED_VERSION],...]
+When you set C<--output json>, the output format is like this: [[PACKAGE_NAME => REQUIRED_VERSION, DISTRIBUTION_NAME],...]
 
-    [["CPAN::PackageDetails","== 0.261"],["Carton","== 1.000034"]]
+    [["CPAN::PackageDetails","== 0.261", "CPAN-PackageDetails"],["Carton","== 1.000034", "Carton"]]
