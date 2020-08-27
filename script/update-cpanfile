@@ -41,7 +41,7 @@ if ($method) {
             my $operated = {pin => 'Pinned', update => 'Updated'}->{$command};
             say "$operated @{[ scalar @$changeset ]} modules";
             for my $change (@$changeset) {
-                say "- @{[ join(' ', @$change) ]}";
+                say "- @{[ join(' ', $change->[0] => $change->[1]) ]}";
             }
         }
     }
