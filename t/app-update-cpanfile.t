@@ -50,11 +50,13 @@ subtest 'it creates changeset for pin dependencies' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "== 1.1003"
+            "== 1.1003",
+            "Module-CPANfile",
         ],
         [
             "Test::Class",
             "== 0.49",
+            "Test-Class",
         ],
     ];
 };
@@ -66,11 +68,13 @@ subtest 'all phases are supported' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "== 1.1003"
+            "== 1.1003",
+            "Module-CPANfile",
         ],
         [
             "Test::Class",
             "== 0.49",
+            "Test-Class",
         ],
     ];
 };
@@ -82,11 +86,13 @@ subtest 'it converts suggests too' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "== 1.1003"
+            "== 1.1003",
+            "Module-CPANfile",
         ],
         [
             "Test::Class",
             "== 0.49",
+            "Test-Class",
         ],
     ];
 };
@@ -99,11 +105,13 @@ subtest "it writes suggests, recommends to cpanfile. It doesn't write conflicts"
     is $pin, [
         [
             "Module::CPANfile",
-            "== 1.1003"
+            "== 1.1003",
+            "Module-CPANfile",
         ],
         [
             "Test::Class",
             "== 0.49",
+            "Test-Class",
         ],
     ], 'it returns changeset';
 
@@ -123,11 +131,13 @@ subtest 'it creates changeset for change >= into == for pinning' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "== 1.1003"
+            "== 1.1003",
+            "Module-CPANfile",
         ],
         [
             "Test::Class",
             "== 0.49",
+            "Test-Class",
         ],
     ];
 };
@@ -146,7 +156,8 @@ subtest 'it creates changeset which aligns to provided version' => sub {
     is $pin, [
         [
             "Unicode::GCString",
-            "== 2013.10"
+            "== 2013.10",
+            "Unicode-LineBreak",
         ],
     ], 'Unicode::GCString is aligned to 2013.10, not 2018.003';
 };
@@ -158,7 +169,8 @@ subtest 'it ignores version=undef for pinning' => sub {
     is $pin, [
         [
             "TheSchwartz",
-            "== 1.15"
+            "== 1.15",
+            "TheSchwartz",
         ],
     ];
 };
@@ -170,7 +182,8 @@ subtest 'it ignores version=undef for updating' => sub {
     is $update, [
     [
         "TheSchwartz",
-        "== 1.15"
+        "== 1.15",
+        "TheSchwartz",
     ],
 ]
 };
@@ -182,7 +195,8 @@ subtest 'it applies limit' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "== 1.1003"
+            "== 1.1003",
+            "Module-CPANfile",
         ],
     ];
 };
@@ -195,6 +209,7 @@ subtest 'it applies filter' => sub {
         [
             "Test::Class",
             "== 0.49",
+            "Test-Class",
         ],
     ];
 };
@@ -206,7 +221,8 @@ subtest 'it applies filter' => sub {
     is $pin, [
         [
             "Module::CPANfile",
-            "== 1.1003"
+            "== 1.1003",
+            "Module-CPANfile",
         ],
     ];
 };
@@ -221,7 +237,8 @@ subtest 'it handles core modules' => sub {
         is $pin, [
             [
                 "Furl",
-                "== 3.13"
+                "== 3.13",
+                "Furl",
             ],
         ], "pin Furl only. Installed File::basename and Encode are core modules.";
     };
@@ -232,11 +249,13 @@ subtest 'it handles core modules' => sub {
         is $update, [
             [
                 "Encode",
-                "== 3.06"
+                "== 3.06",
+                "Encode",
             ],
             [
                 "Furl",
-                "== 3.13"
+                "== 3.13",
+                "Furl",
             ],
         ], 'Encode has latest version in CPAN, but latest File::basename is still a core module.';
     };
@@ -247,7 +266,8 @@ subtest 'it handles core modules' => sub {
         is $update, [
             [
                 "Furl",
-                "== 3.13"
+                "== 3.13",
+                "Furl",
             ],
         ], '5.32 has latest Encode';
     };
@@ -279,11 +299,13 @@ subtest 'it creates changeset for update' => sub {
     is $update, [
         [
             "Module::CPANfile",
-            "== 1.1004"
+            "== 1.1004",
+            "Module-CPANfile",
         ],
         [
             "Test::Class",
             "== 0.50",
+            "Test-Class",
         ],
     ];
 };
@@ -299,11 +321,13 @@ subtest 'it handles == for update' => sub {
         is $update, [
             [
                 "Module::CPANfile",
-                "== 1.1004"
+                "== 1.1004",
+                "Module-CPANfile",
             ],
             [
                 "Test::Class",
                 "== 0.50",
+                "Test-Class",
             ],
         ];
         $app->update_dependencies; # write here
@@ -324,11 +348,13 @@ subtest 'it writes to cpanfile' => sub {
     my $update = $app->update_dependencies;
     is $update, [            [
             "Module::CPANfile",
-            "== 1.1004"
+            "== 1.1004",
+            "Module-CPANfile",
         ],
         [
             "Test::Class",
             "== 0.50",
+            "Test-Class",
         ],
     ], 'It returns changeset';
 
