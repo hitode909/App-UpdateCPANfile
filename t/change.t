@@ -21,6 +21,13 @@ subtest 'instantiate' => sub {
         ['Unicode::GCString' => '== 2013.10', relationship => 'suggests'],
         ['Unicode::GCString' => '== 2013.10', relationship => 'recommends'],
     ];
+
+    is $change->as_hashref, {
+        package_name => 'Unicode::GCString',
+        version      => '2013.10',
+        path         => 'N/NE/NEZUMI/Unicode-LineBreak-2019.001.tar.gz',
+        dist_name    => 'Unicode-LineBreak',
+    };
 };
 
 done_testing;

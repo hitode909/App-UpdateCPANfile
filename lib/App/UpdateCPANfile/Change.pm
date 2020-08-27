@@ -30,4 +30,15 @@ sub prereqs {
     ];
 }
 
+sub as_hashref {
+    my ($self) = @_;
+
+    {
+        package_name => $self->package_name,
+        version      => $self->version,
+        path         => $self->path,
+        dist_name    => $self->dist_name,
+    }
+}
+
 1;
