@@ -7,7 +7,6 @@ use Module::CPANfile::Writer;
 use App::UpdateCPANfile::CPANfileSnapshotParser;
 use App::UpdateCPANfile::PackageDetails;
 use App::UpdateCPANfile::Change;
-use CPAN::DistnameInfo;
 use Module::CoreList;
 
 our $VERSION = "0.08";
