@@ -18,7 +18,7 @@ jobs:
 
       - name: update
         id: update
-        run: docker run -v `pwd`:/src -w /src perl:latest bash -c 'perl -v && cpanm --notest App::UpdateCPANfile && echo "::set-output name=updated_packages::$(update-cpanfile update --output json)"'
+        run: docker run -v `pwd`:/src -w /src perl:latest bash -c 'perl -v && cpanm --notest App::UpdateCPANfile && echo "::set-output name=version::$(update-cpanfile --version)" && echo "::set-output name=updated_packages::$(update-cpanfile update --output json)"'
 
       - name: report
         id: report
@@ -35,4 +35,4 @@ jobs:
           commit-message: Update cpanfile
           body: |
             ${{ steps.report.outputs.body }}
-            Automated changes by [update-cpanfile](https://metacpan.org/pod/distribution/App-UpdateCPANfile/script/update-cpanfile)
+            Automated changes by [update-cpanfile](https://metacpan.org/pod/distribution/App-UpdateCPANfile/script/update-cpanfile) version ${{ steps.update.outputs.version }}
