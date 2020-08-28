@@ -47,6 +47,6 @@ To execute for other project in directory, you can specify path of cpanfile and 
 - --version
 
 Default output format is `text`.
-When you set `--output json`, the output format is like this: \[{package\_name: PACKAGE\_NAME, version: VERSION, path: PATH, dist\_name: DIST\_NAME}, ...\]
+When you set `--output json`, the output format is like this: \[{package\_name: PACKAGE\_NAME, version: VERSION, version\_from: VERSION\_BEFORE\_UPDATE, path: PATH, dist\_name: DIST\_NAME}, ...\]
 
-    [{"package_name":"File::Copy::Recursive","version":"0.45","path":"D/DM/DMUEY/File-Copy-Recursive-0.45.tar.gz","dist_name":"File-Copy-Recursive"}]
+    [{"version":"0.45","package_name":"File::Copy::Recursive","dist_name":"File-Copy-Recursive","version_from":"0.43","path":"D/DM/DMUEY/File-Copy-Recursive-0.45.tar.gz"}]
