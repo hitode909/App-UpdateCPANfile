@@ -51,10 +51,12 @@ subtest 'it creates changeset for pin dependencies' => sub {
         object {
             call package_name => "Module::CPANfile";
             call version      => "1.1003";
+            call version_from => undef;
         },
         object {
             call package_name => "Test::Class";
             call version      => "0.49";
+            call version_from => undef;
         },
     ];
 };
@@ -171,6 +173,7 @@ subtest 'it ignores version=undef for updating' => sub {
         object {
             call package_name => "TheSchwartz";
             call version      => "1.15";
+            call version_from => "0";
         },
     ];
 };
@@ -233,10 +236,12 @@ subtest 'it handles core modules' => sub {
             object {
                 call package_name => "Encode";
                 call version      => "3.06";
+                call version_from => "0";
             },
             object {
                 call package_name => "Furl";
                 call version      => "3.13";
+                call version_from => "0";
             },
         ], 'Encode has latest version in CPAN, but latest File::basename is still a core module.';
     };
@@ -248,6 +253,7 @@ subtest 'it handles core modules' => sub {
             object {
                 call package_name => "Furl";
                 call version      => "3.13";
+                call version_from => "0";
             },
         ], '5.32 has latest Encode';
     };
@@ -280,10 +286,12 @@ subtest 'it creates changeset for update' => sub {
         object {
             call package_name => "Module::CPANfile";
             call version      => "1.1004";
+            call version_from => "0";
         },
         object {
             call package_name => "Test::Class";
             call version      => "0.50";
+            call version_from => "0";
         },
     ];
 };
@@ -300,10 +308,12 @@ subtest 'it handles == for update' => sub {
             object {
                 call package_name => "Module::CPANfile";
                 call version      => "1.1004";
+                call version_from => "1.1003";
             },
             object {
                 call package_name => "Test::Class";
                 call version      => "0.50";
+                call version_from => "0.49";
             },
         ];
         $app->update_dependencies; # write here
@@ -326,10 +336,12 @@ subtest 'it writes to cpanfile' => sub {
         object {
             call package_name => "Module::CPANfile";
             call version      => "1.1004";
+            call version_from => "0";
         },
         object {
             call package_name => "Test::Class";
             call version      => "0.50";
+            call version_from => "0";
         },
     ], 'It returns changeset';
 
