@@ -128,6 +128,6 @@ To execute for other project in directory, you can specify path of cpanfile and 
 =back
 
 Default output format is C<text>.
-When you set C<--output json>, the output format is like this: [{package_name: PACKAGE_NAME, version: VERSION, path: PATH, dist_name: DIST_NAME}, ...]
+When you set C<--output json>, the output format is like this: [{package_name: PACKAGE_NAME, version: VERSION, version_from: VERSION_BEFORE_UPDATE, path: PATH, dist_name: DIST_NAME}, ...]
 
-    [{"package_name":"File::Copy::Recursive","version":"0.45","path":"D/DM/DMUEY/File-Copy-Recursive-0.45.tar.gz","dist_name":"File-Copy-Recursive"}]
+    [{"version":"0.45","package_name":"File::Copy::Recursive","dist_name":"File-Copy-Recursive","version_from":"0.43","path":"D/DM/DMUEY/File-Copy-Recursive-0.45.tar.gz"}]
