@@ -124,7 +124,7 @@ sub create_update_dependencies_changeset {
         my $latest_version = $package_object->version;
         next if $self->_is_core_module($module, $latest_version);
         if (defined $latest_version && (! defined $required_version || $required_version ne "== $latest_version") && ($latest_version ne 'undef')) {
-            my ($version_from) = defined $required_version && $required_version =~ m{^== (.+)$};
+            my ($version_from) = defined $required_version && $required_version =~ m{^==\s*(.+)$};
             push @$added_dependencies, App::UpdateCPANfile::Change->new(package_name => $module, version => $latest_version, version_from => $version_from, path => $package_object->path);
         }
     }
