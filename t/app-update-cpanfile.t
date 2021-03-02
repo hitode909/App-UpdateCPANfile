@@ -19,11 +19,11 @@ subtest 'initialize' => sub {
 };
 
 subtest 'initialize with options' => sub {
-    my $app = App::UpdateCPANfile->new('my.cpanfile', 'my.cpanfile.snapshot', { limit => 3, filter => 'foo', 'ignore-filter' => 'bar'});
+    my $app = App::UpdateCPANfile->new('my.cpanfile', 'my.cpanfile.snapshot', { limit => 3, filter => 'foo', 'ignore-filter' => 'bar', shuffle => 1});
     isa_ok $app, 'App::UpdateCPANfile';
     is $app->path, 'my.cpanfile';
     is $app->snapshot_path, 'my.cpanfile.snapshot';
-    is $app->options, { limit => 3, filter => 'foo', 'ignore-filter' => 'bar'};
+    is $app->options, { limit => 3, filter => 'foo', 'ignore-filter' => 'bar', shuffle => 1};
 };
 
 subtest 'initialize without path' => sub {
@@ -185,6 +185,21 @@ subtest 'it applies limit' => sub {
             call version      => "1.1003";
         },
     ];
+};
+
+subtest 'it applies limit and shuffle' => sub {
+    my $found_package_names = {};
+    my $i = 0;
+    while (keys %$found_package_names < 2 && ++$i < 100) {
+        my $app = App::UpdateCPANfile->new('t/fixtures/simple/cpanfile', 't/fixtures/simple/cpanfile.snapshot', {limit => 1, shuffle => 1});
+        my $pin = $app->create_pin_dependencies_changeset;
+        is $pin, [
+            T()
+            ,
+        ];
+        $found_package_names->{$pin->[0]->package_name}++;
+    }
+    is keys %$found_package_names, 2, 'it shuffles the result packages';
 };
 
 subtest 'it applies filter' => sub {
