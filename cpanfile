@@ -10,6 +10,7 @@ requires 'Getopt::Long';
 requires 'Carton';
 requires 'CPAN::Meta::Prereqs', '>= 2.150010';
 requires 'JSON';
+requires 'List::Util';
 
 on 'test' => sub {
     requires 'Test2::V0';

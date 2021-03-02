@@ -50,6 +50,7 @@
             "IO::String" : "0",
             "JSON" : "0",
             "LWP::UserAgent" : "0",
+            "List::Util" : "0",
             "Module::CPANfile" : "0",
             "Module::CPANfile::Writer" : "0",
             "perl" : "5.010001"
