@@ -16,6 +16,7 @@ while (defined $ARGV[0] && $ARGV[0] =~ /^[^-]/) {
 GetOptions(
     \my %options, qw{
     limit=n
+    shuffle
     filter=s
     ignore-filter=s
     output=s
@@ -105,7 +106,7 @@ Update policy is below.
 
 =head1 TARGET PROJECT
 
-By default, update-cpanfile updates cpanfile in current diretory.
+By default, update-cpanfile updates cpanfile in current directory.
 To execute for other project in directory, you can specify path of cpanfile and cpanfile.snapshot.
 
     $ update-cpanfile pin <path_to_cpanfile> <path_to_cpanfile.snapshot>
@@ -121,6 +122,8 @@ To execute for other project in directory, you can specify path of cpanfile and 
 
 =item * --ignore-filter=FILTER
 
+=item * --shuffle
+
 =item * --output={text|json}
 
 =item * --version
@@ -131,3 +134,6 @@ Default output format is C<text>.
 When you set C<--output json>, the output format is like this: [{package_name: PACKAGE_NAME, version: VERSION, path: PATH, dist_name: DIST_NAME}, ...]
 
     [{"package_name":"File::Copy::Recursive","version":"0.45","path":"D/DM/DMUEY/File-Copy-Recursive-0.45.tar.gz","dist_name":"File-Copy-Recursive"}]
+
+
+C<shuffle> option works fine with C<--limit=1>. C<--limit=1 --shuffle> will update a random picked package.
