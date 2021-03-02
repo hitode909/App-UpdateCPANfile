@@ -10,7 +10,7 @@ use App::UpdateCPANfile::Change;
 use Module::CoreList;
 use List::Util qw(shuffle);
 
-our $VERSION = "1.0.0";
+our $VERSION = "1.1.0";
 
 sub new {
     my ($class, $path, $snapshot_path, $options) = @_;
