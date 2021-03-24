@@ -56,8 +56,8 @@ if ($method) {
 } else {
     warn <<'HELP';
 Usage
-Pin Dependencies:    update-cpanfile pin $PATH_TO_CPANFILE$PATH_TO_CPANFILE_SNAPSHOT
-Update Dependencies: update-cpanfile update$PATH_TO_CPANFILE
+Pin Dependencies:    update-cpanfile pin $PATH_TO_CPANFILE $PATH_TO_CPANFILE_SNAPSHOT
+Update Dependencies: update-cpanfile update $PATH_TO_CPANFILE
 HELP
     exit 1;
 }
