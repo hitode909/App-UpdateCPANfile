@@ -187,6 +187,23 @@ subtest 'it applies limit' => sub {
     ];
 };
 
+subtest 'it applies limit and appends modules that belong to the same distribution' => sub {
+    my $app = App::UpdateCPANfile->new('t/fixtures/with_same_distribution/cpanfile', 't/fixtures/with_same_distribution/cpanfile.snapshot', {limit => 1});
+
+    local $] = '5.020000';
+    my $pin = $app->create_pin_dependencies_changeset;
+    is $pin, [
+        object {
+            call package_name => "Test::Builder";
+            call version      => "1.302175";
+        },
+        object {
+            call package_name => "Test::More";
+            call version      => "1.302175";
+        },
+    ];
+};
+
 subtest 'it applies limit and shuffle' => sub {
     my $found_package_names = {};
     my $i = 0;

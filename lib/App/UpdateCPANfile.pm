@@ -167,7 +167,10 @@ sub _apply_filter {
     }
 
     if (my $limit = $self->options->{limit}) {
-        $changeset = [ splice(@$changeset, 0, $limit) ];
+        my $limited_changeset = [ splice(@$changeset, 0, $limit) ];
+        my $is_changed_path = { map { $_->path => 1 } @$limited_changeset };
+        my $associated_changeset = [ grep { $is_changed_path->{ $_->path } } @$changeset ];
+        $changeset = [ @$limited_changeset, @$associated_changeset ];
     }
     return $changeset;
 }

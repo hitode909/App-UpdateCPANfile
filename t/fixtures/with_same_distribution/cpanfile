@@ -1,0 +1,3 @@
+requires 'Test::Builder'; # belongs to Test-Simple distribution
+requires 'Test::Class'; # belongs to Test-Class distribution
+requires 'Test::More'; # belongs to Test-Simple distribution
