@@ -2,6 +2,10 @@ Revision history for Perl extension App-UpdateCPANfile
 
 {{$NEXT}}
 
+1.1.1 2021-03-25T00:01:09Z
+    - Fix typo in usage. Thanks @nanto!
+    - Update modules in the same distribution at one time. Thanks @nanto!
+
 1.1.0 2021-03-02T01:44:05Z
     - Implemented --shuffle option. Thanks @cohalz!
 

@@ -82,10 +82,11 @@
          "web" : "https://github.com/hitode909/App-UpdateCPANfile"
       }
    },
-   "version" : "1.1.0",
+   "version" : "1.1.1",
    "x_authority" : "cpan:HITODE",
    "x_contributors" : [
-      "hitode909 <hitode909@gmail.com>"
+      "hitode909 <hitode909@gmail.com>",
+      "nanto_vi <nanto@moon.email.ne.jp>"
    ],
    "x_serialization_backend" : "JSON::PP version 4.02",
    "x_static_install" : 1
